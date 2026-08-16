@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1eadbloom | AI & Software Engineering Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                            900: '#164e63',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-cyan-500 selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-slate-950/85 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="flex h-3 w-3 relative">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
+                </span>
+                <span class="font-mono font-bold text-lg tracking-wider text-slate-100">1eadbloom<span class="text-cyan-500">.dev</span></span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="https://github.com/1eadbloom" target="_blank" class="text-slate-400 hover:text-white text-sm font-medium transition flex items-center gap-2 border border-slate-800 px-3 py-1.5 rounded-lg bg-slate-900">
+                    <i class="fa-brands fa-github text-base"></i> GitHub Profile
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+
+        <!-- Hero Section -->
+        <section class="space-y-4">
+            <div class="inline-flex items-center gap-2 bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs px-3 py-1 rounded-full font-mono">
+                <i class="fa-solid fa-code"></i> AI & Deep Learning & FinTech Developer
+            </div>
+            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
+                徐祥智 (1eadbloom) <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-400">求職專案與技術作品集</span>
+            </h1>
+            <p class="text-slate-400 text-base sm:text-lg max-w-3xl leading-relaxed">
+                涵蓋 **生成式 AI (DDPM)**、**深度強化學習 (DQN)**、**量化金融科技** 與 **機器學習管線建構**。下方提供互動式分類搜尋、展示卡片與即時 CLI 模擬測試。
+            </p>
+        </section>
+
+        <!-- Filter & Search Bar -->
+        <section class="space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/60 p-4 border border-slate-800 rounded-xl">
+                <!-- Category Buttons -->
+                <div class="flex flex-wrap gap-2" id="filter-buttons">
+                    <button onclick="filterProjects('all')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-600 text-white transition" data-cat="all">全部專案 (5)</button>
+                    <button onclick="filterProjects('dl-genai')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="dl-genai">生成式 AI / DDPM</button>
+                    <button onclick="filterProjects('rl')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="rl">強化學習 (RL)</button>
+                    <button onclick="filterProjects('fintech')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="fintech">金融科技 (FinTech)</button>
+                    <button onclick="filterProjects('ml-systems')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="ml-systems">AI 系統 / 資料探勘</button>
+                </div>
+                <!-- Search Input -->
+                <div class="relative w-full sm:w-64">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-500 text-xs"></i>
+                    <input id="search-input" type="text" oninput="searchProjects()" placeholder="搜尋關鍵字 (例如: PyTorch, Gym...)" class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
+
+            <!-- Card 1: DDPM -->
+            <div class="project-card bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-cyan-500/50 transition shadow-lg" data-category="dl-genai" data-keywords="pytorch ddpm diffusion conditional iclevr computer vision">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 font-mono">Deep Learning</span>
+                        <span class="text-slate-500 font-mono">DLP-Lab6</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-cyan-400">Conditional DDPM 圖像生成</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        基於 iCLEVR 多標籤資料集實作條件式去噪擴散模型（Conditional DDPM），完成噪聲排程設計、Condition Embedding 與評估管線。
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 pt-2">
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">PyTorch</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">DDPM</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">iCLEVR</span>
+                    </div>
+                </div>
+                <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
+                    <button onclick="openModal('ddpm')" class="text-xs text-cyan-400 hover:underline font-medium">深入技術細節 &rarr;</button>
+                    <a href="https://github.com/1eadbloom/DLP-Lab6-Conditional-DDPM-iclevr" target="_blank" class="text-slate-400 hover:text-white"><i class="fa-brands fa-github text-base"></i></a>
+                </div>
+            </div>
+
+            <!-- Card 2: DQN -->
+            <div class="project-card bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-cyan-500/50 transition shadow-lg" data-category="rl" data-keywords="pytorch dqn reinforcement learning openai gym replay buffer">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">Reinforcement Learning</span>
+                        <span class="text-slate-500 font-mono">DLP-Lab5</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Deep Q-Network (DQN) 控制器</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        以 PyTorch 打造 Deep Q-Network Agent，於 OpenAI Gym 環境中訓練策略。優化 Experience Replay 緩衝區與 Target Network 更新機制。
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 pt-2">
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">PyTorch</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">OpenAI Gym</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">DQN</span>
+                    </div>
+                </div>
+                <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
+                    <button onclick="openModal('dqn')" class="text-xs text-cyan-400 hover:underline font-medium">深入技術細節 &rarr;</button>
+                    <a href="https://github.com/1eadbloom/DLP-Lab5-DQN" target="_blank" class="text-slate-400 hover:text-white"><i class="fa-brands fa-github text-base"></i></a>
+                </div>
+            </div>
+
+            <!-- Card 3: FinTech -->
+            <div class="project-card bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-cyan-500/50 transition shadow-lg" data-category="fintech" data-keywords="python ntu fintech backtesting quantitative trading pandas numpy">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-mono">FinTech & Quant</span>
+                        <span class="text-slate-500 font-mono">NTU Course</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">NTU 金融科技與策略回測管線</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        針對國立臺灣大學金融科技課程研發，整合 API 進行歷史/即時金融數據清洗、量化交易策略開發與風險指標回測評估。
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 pt-2">
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Python</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Pandas</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Backtesting</span>
+                    </div>
+                </div>
+                <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
+                    <button onclick="openModal('fintech')" class="text-xs text-cyan-400 hover:underline font-medium">深入技術細節 &rarr;</button>
+                    <a href="https://github.com/1eadbloom/Fintech-for-NTU-course" target="_blank" class="text-slate-400 hover:text-white"><i class="fa-brands fa-github text-base"></i></a>
+                </div>
+            </div>
+
+            <!-- Card 4: TAICA AI -->
+            <div class="project-card bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-cyan-500/50 transition shadow-lg" data-category="ml-systems" data-keywords="python taica machine learning evaluation scikit-learn pipeline">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20 font-mono">AI Systems</span>
+                        <span class="text-slate-500 font-mono">TAICA Project</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">TAICA 端到端 AI 應用管線</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        結合台灣人工智慧協會實務範疇之 AI 專案，進行模型演算法選型、資料前處理與模型效能調優，呈現完整 ML 架構。
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 pt-2">
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Scikit-Learn</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Pipeline</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Evaluation</span>
+                    </div>
+                </div>
+                <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
+                    <button onclick="openModal('taica')" class="text-xs text-cyan-400 hover:underline font-medium">深入技術細節 &rarr;</button>
+                    <a href="https://github.com/1eadbloom/TAICA_-AI-" target="_blank" class="text-slate-400 hover:text-white"><i class="fa-brands fa-github text-base"></i></a>
+                </div>
+            </div>
+
+            <!-- Card 5: RapidMiner -->
+            <div class="project-card bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-cyan-500/50 transition shadow-lg" data-category="ml-systems" data-keywords="rapidminer data mining feature engineering workflow cross validation">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-mono">Data Science</span>
+                        <span class="text-slate-500 font-mono">RapidMiner</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">RapidMiner 自動化資料探勘 Workflow</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        運用 RapidMiner 建立視覺化 Workflow，涵蓋缺失值補全、特徵選擇、交叉驗證與多分類/迴歸模型比較。
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 pt-2">
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">RapidMiner</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Workflow</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Cross-Validation</span>
+                    </div>
+                </div>
+                <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
+                    <button onclick="openModal('rapidminer')" class="text-xs text-cyan-400 hover:underline font-medium">深入技術細節 &rarr;</button>
+                    <a href="https://github.com/1eadbloom/-_RapidMiner" target="_blank" class="text-slate-400 hover:text-white"><i class="fa-brands fa-github text-base"></i></a>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Interactive Playground Section -->
+        <section class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+            <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+                <div>
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-terminal text-cyan-400"></i> 一站式核心邏輯測試 Console
+                    </h2>
+                    <p class="text-slate-400 text-xs mt-1">招募官可以直接在瀏覽器內模擬執行專案的核心演算法或資料管線。</p>
+                </div>
+            </div>
+            
+            <div class="p-5 font-mono text-xs space-y-4">
+                <div class="flex items-center gap-2">
+                    <span class="text-slate-400">選擇模擬專案：</span>
+                    <select id="sim-project" class="bg-slate-950 border border-slate-800 rounded px-2 py-1 text-slate-200">
+                        <option value="ddpm">DLP-Lab6: Conditional DDPM Noise Step</option>
+                        <option value="dqn">DLP-Lab5: DQN Experience Replay Step</option>
+                        <option value="fintech">NTU FinTech: Backtest Execution</option>
+                    </select>
+                    <button onclick="runSimulation()" class="bg-cyan-600 hover:bg-cyan-500 text-white px-3 py-1 rounded transition">執行模擬 (Run)</button>
+                </div>
+
+                <div id="sim-output" class="bg-slate-950 p-4 rounded border border-slate-800 text-slate-300 h-40 overflow-y-auto leading-relaxed">
+// 點擊「執行模擬」以檢視專案執行過程與資料串流日誌...
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal Template for Technical Deep Dive -->
+    <div id="tech-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl max-w-2xl w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 id="modal-title" class="text-lg font-bold text-white">專案標題</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white text-lg">&times;</button>
+            </div>
+            <div id="modal-content" class="text-xs text-slate-300 space-y-3 leading-relaxed">
+                <!-- Dynamic Content -->
+            </div>
+            <div class="pt-3 border-t border-slate-800 flex justify-end">
+                <button onclick="closeModal()" class="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-xs">關閉視窗</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Project Detail Modal Data
+        const modalDetails = {
+            'ddpm': {
+                title: 'DLP-Lab6: Conditional DDPM 圖像生成',
+                github: 'https://github.com/1eadbloom/DLP-Lab6-Conditional-DDPM-iclevr',
+                body: `
+                    <p><strong>專案目標：</strong>在 iCLEVR 多標籤資料集上實作條件式去噪擴散概率模型 (DDPM)。</p>
+                    <p><strong>關鍵技術：</strong>Cosine Noise Schedule、Condition Embedding (一熱編碼/類別向量融合)、U-Net 卷積骨幹架構。</p>
+                    <div class="bg-slate-950 p-3 rounded font-mono text-[11px] text-cyan-300 border border-slate-800">
+# 代表性代碼片段 (Noise Scheduling & Loss Loop)
+def p_losses(self, x_start, t, c, noise=None):
+    if noise is None:
+        noise = torch.randn_like(x_start)
+    x_noisy = self.q_sample(x_start=x_start, t=t, noise=noise)
+    predicted_noise = self.model(x_noisy, t, c)
+    loss = F.mse_loss(noise, predicted_noise)
+    return loss
+                    </div>
+                `
+            },
+            'dqn': {
+                title: 'DLP-Lab5: Deep Q-Network 強化學習',
+                github: 'https://github.com/1eadbloom/DLP-Lab5-DQN',
+                body: `
+                    <p><strong>專案目標：</strong>從頭打造 Deep Q-Network Agent 解決經典控制/遊戲環境問題。</p>
+                    <p><strong>關鍵技術：</strong>Experience Replay Buffer、Epsilon-Greedy Exploration Policy、Double-DQN / Target Network 延遲更新。</p>
+                    <div class="bg-slate-950 p-3 rounded font-mono text-[11px] text-emerald-300 border border-slate-800">
+# 代表性代碼片段 (Replay Memory Step)
+def train_step(self):
+    states, actions, rewards, next_states, dones = self.memory.sample(self.batch_size)
+    q_values = self.policy_net(states).gather(1, actions)
+    with torch.no_grad():
+        max_next_q = self.target_net(next_states).max(1)[0].unsqueeze(1)
+        target_q = rewards + (1 - dones) * self.gamma * max_next_q
+    loss = F.smooth_l1_loss(q_values, target_q)
+    self.optimizer.zero_grad(); loss.backward(); self.optimizer.step()
+                    </div>
+                `
+            },
+            'fintech': {
+                title: 'NTU 金融科技與量化策略回測',
+                github: 'https://github.com/1eadbloom/Fintech-for-NTU-course',
+                body: `
+                    <p><strong>專案目標：</strong>設計自動化金融數據抓取與量化交易策略回測架構。</p>
+                    <p><strong>關鍵技術：</strong>Pandas/NumPy 向量化計算、Sharpe Ratio / Max Drawdown 計算、歷史數據清洗與特徵提取。</p>
+                    <div class="bg-slate-950 p-3 rounded font-mono text-[11px] text-amber-300 border border-slate-800">
+# 代表性代碼片段 (Backtest Strategy Pipeline)
+def compute_strategy_metrics(df, signals):
+    df['returns'] = df['close'].pct_change()
+    df['strategy_returns'] = df['returns'] * signals.shift(1)
+    cum_returns = (1 + df['strategy_returns']).cumprod()
+    sharpe_ratio = (df['strategy_returns'].mean() / df['strategy_returns'].std()) * np.sqrt(252)
+    return cum_returns, sharpe_ratio
+                    </div>
+                `
+            },
+            'taica': {
+                title: 'TAICA 端到端 AI 應用與評估管線',
+                github: 'https://github.com/1eadbloom/TAICA_-AI-',
+                body: `
+                    <p><strong>專案目標：</strong>建構完整機器學習預測與特徵工程自動化管線。</p>
+                    <p><strong>關鍵技術：</strong>Feature Pipeline、Cross-Validation、GridSearchCV 超參數調優。</p>
+                `
+            },
+            'rapidminer': {
+                title: 'RapidMiner 資料探勘視覺化 Workflow',
+                github: 'https://github.com/1eadbloom/-_RapidMiner',
+                body: `
+                    <p><strong>專案目標：</strong>運用 RapidMiner 建立資料探勘、機器學習與決策支援模型。</p>
+                    <p><strong>關鍵技術：</strong>Data Imputation、PCA 降維、Decision Tree / Random Forest 模型比較。</p>
+                `
+            }
+        };
+
+        function filterProjects(cat) {
+            const cards = document.querySelectorAll('.project-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            buttons.forEach(btn => {
+                if(btn.dataset.cat === cat) {
+                    btn.className = "filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-600 text-white transition";
+                } else {
+                    btn.className = "filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+                }
+            });
+
+            cards.forEach(card => {
+                if(cat === 'all' || card.dataset.category === cat) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        function searchProjects() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const cards = document.querySelectorAll('.project-card');
+
+            cards.forEach(card => {
+                const keywords = card.dataset.keywords.toLowerCase();
+                const text = card.innerText.toLowerCase();
+                if(keywords.includes(query) || text.includes(query)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        function openModal(key) {
+            const detail = modalDetails[key];
+            if(!detail) return;
+            document.getElementById('modal-title').innerText = detail.title;
+            document.getElementById('modal-content').innerHTML = detail.body + `<p class="pt-2"><a href="${detail.github}" target="_blank" class="text-cyan-400 hover:underline"><i class="fa-brands fa-github"></i> 前往 GitHub 原始碼頁面</a></p>`;
+            document.getElementById('tech-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('tech-modal').classList.add('hidden');
+        }
+
+        function runSimulation() {
+            const proj = document.getElementById('sim-project').value;
+            const output = document.getElementById('sim-output');
+            
+            if(proj === 'ddpm') {
+                output.innerText = "[INFO] Initializing Conditional DDPM Model...\n[INFO] Noise Timesteps T=1000, Beta schedule: cosine\n[STEP 001] Condition embedding injected: [1, 0, 1]\n[STEP 250] Denoising Loss: 0.0421\n[STEP 500] Denoising Loss: 0.0118\n[SUCCESS] Image synthesized successfully in 1.24s.";
+            } else if(proj === 'dqn') {
+                output.innerText = "[INFO] Loading Gym Environment: CartPole-v1\n[INFO] Replay Memory Capacity: 10,000\n[EPISODE 10] Average Reward: 22.4, Epsilon: 0.85\n[EPISODE 50] Average Reward: 145.2, Epsilon: 0.21\n[EPISODE 100] Average Reward: 200.0 (Solved!), Epsilon: 0.05";
+            } else if(proj === 'fintech') {
+                output.innerText = "[INFO] Fetching historical stock ticks via API...\n[INFO] Executing Moving Average Crossover Strategy\n[RESULT] Total Trades: 142 | Win Rate: 62.4%\n[METRIC] Annualized Return: 18.5% | Sharpe Ratio: 1.84 | Max Drawdown: -8.2%";
+            }
+        }
+    </script>
+</body>
+</html>
