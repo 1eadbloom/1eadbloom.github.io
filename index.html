@@ -8,11 +8,18 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Fonts: JetBrains Mono for the terminal/engineering-notebook voice, Inter for body copy -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+                        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular'],
+                    },
                     colors: {
                         brand: {
                             500: '#06b6d4',
@@ -24,6 +31,50 @@
             }
         }
     </script>
+    <style>
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: #030712;
+            background-image:
+                radial-gradient(ellipse 80% 50% at 15% -10%, rgba(6, 182, 212, 0.12), transparent),
+                radial-gradient(ellipse 60% 40% at 90% 10%, rgba(244, 63, 94, 0.08), transparent),
+                linear-gradient(rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+            background-size: auto, auto, 42px 42px, 42px 42px;
+            background-attachment: fixed;
+        }
+
+        /* Scroll reveal */
+        .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+        /* Card hover lift + glow, color driven by CSS var set per-card */
+        .project-card { transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -10px var(--card-glow, rgba(6,182,212,0.35));
+        }
+
+        /* Blinking terminal cursor */
+        .caret::after {
+            content: '▍';
+            margin-left: 2px;
+            animation: blink 1s step-start infinite;
+            color: #34d399;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Custom scrollbar for modal / terminal blocks */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { opacity: 1; transform: none; transition: none; }
+            .caret::after { animation: none; }
+        }
+    </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-cyan-500 selection:text-white">
 
@@ -37,45 +88,86 @@
                 </span>
                 <span class="font-mono font-bold text-lg tracking-wider text-slate-100">1eadbloom<span class="text-cyan-500">.dev</span></span>
             </div>
+            <nav class="hidden sm:flex items-center gap-6 font-mono text-xs text-slate-400">
+                <a href="#projects" class="hover:text-cyan-400 transition">./projects</a>
+                <a href="#stack" class="hover:text-cyan-400 transition">./stack</a>
+                <a href="#console" class="hover:text-cyan-400 transition">./console</a>
+            </nav>
             <div class="flex items-center space-x-4">
                 <a href="https://github.com/1eadbloom" target="_blank" class="text-slate-400 hover:text-white text-sm font-medium transition flex items-center gap-2 border border-slate-800 px-3 py-1.5 rounded-lg bg-slate-900">
-                    <i class="fa-brands fa-github text-base"></i> GitHub Profile
+                    <i class="fa-brands fa-github text-base"></i> <span class="hidden sm:inline">GitHub Profile</span>
                 </a>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-14">
 
         <!-- Hero Section -->
-        <section class="space-y-4">
-            <div class="inline-flex items-center gap-2 bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs px-3 py-1 rounded-full font-mono">
-                <i class="fa-solid fa-code"></i> AI & Deep Learning & FinTech Developer
+        <section class="grid lg:grid-cols-5 gap-8 items-start">
+            <div class="lg:col-span-3 space-y-4">
+                <div class="inline-flex items-center gap-2 bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs px-3 py-1 rounded-full font-mono">
+                    <i class="fa-solid fa-code"></i> AI & Deep Learning & FinTech Developer
+                </div>
+                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
+                    徐祥智 (1eadbloom) <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-400">求職專案與技術作品集</span>
+                </h1>
+                <p class="text-slate-400 text-base sm:text-lg max-w-2xl leading-relaxed">
+                    國立成功大學在學生，專注於<strong class="text-slate-200 font-medium">生成式 AI（DDPM）</strong>、<strong class="text-slate-200 font-medium">深度強化學習（DQN）</strong>、<strong class="text-slate-200 font-medium">自然語言處理</strong>與<strong class="text-slate-200 font-medium">量化金融科技</strong>。每個專案都附上真實的技術細節與踩坑紀錄，而非成果展示的表面文字。
+                </p>
             </div>
-            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
-                徐祥智 (1eadbloom) <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-400">求職專案與技術作品集</span>
-            </h1>
-            <p class="text-slate-400 text-base sm:text-lg max-w-3xl leading-relaxed">
-                涵蓋 **生成式 AI (DDPM)**、**深度強化學習 (DQN)**、**量化金融科技** 與 **機器學習管線建構**。下方提供互動式分類搜尋、展示卡片與即時 CLI 模擬測試。
-            </p>
+
+            <!-- Signature element: terminal boot block -->
+            <div class="lg:col-span-2 bg-slate-900/80 border border-slate-800 rounded-xl overflow-hidden shadow-xl reveal">
+                <div class="flex items-center gap-1.5 px-4 py-2.5 border-b border-slate-800 bg-slate-900">
+                    <span class="w-2.5 h-2.5 rounded-full bg-rose-500/70"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500/70"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/70"></span>
+                    <span class="ml-2 font-mono text-[11px] text-slate-500">whoami.sh</span>
+                </div>
+                <div id="boot-terminal" class="p-4 font-mono text-[11px] sm:text-xs leading-relaxed text-emerald-400/90 min-h-[168px]"></div>
+            </div>
+        </section>
+
+        <!-- Stats strip -->
+        <section class="grid grid-cols-2 sm:grid-cols-4 gap-3 reveal">
+            <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-center">
+                <div class="text-2xl font-extrabold text-cyan-400 font-mono">7</div>
+                <div class="text-[11px] text-slate-500 mt-1">已整理專案</div>
+            </div>
+            <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-center">
+                <div class="text-2xl font-extrabold text-emerald-400 font-mono">20+</div>
+                <div class="text-[11px] text-slate-500 mt-1">Notebook / Script</div>
+            </div>
+            <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-center">
+                <div class="text-2xl font-extrabold text-amber-400 font-mono">5</div>
+                <div class="text-[11px] text-slate-500 mt-1">技術領域</div>
+            </div>
+            <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-center">
+                <div class="text-2xl font-extrabold text-rose-400 font-mono">PyTorch</div>
+                <div class="text-[11px] text-slate-500 mt-1">主要框架</div>
+            </div>
         </section>
 
         <!-- Filter & Search Bar -->
-        <section class="space-y-4">
+        <section id="projects" class="space-y-4 scroll-mt-20">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/60 p-4 border border-slate-800 rounded-xl">
                 <!-- Category Buttons -->
                 <div class="flex flex-wrap gap-2" id="filter-buttons">
-                    <button onclick="filterProjects('all')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-600 text-white transition" data-cat="all">全部專案 (5)</button>
+                    <button onclick="filterProjects('all')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-600 text-white transition" data-cat="all">全部專案 (7)</button>
+                    <button onclick="filterProjects('ai-systems')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="ai-systems">AI 系統 / Agent</button>
                     <button onclick="filterProjects('dl-genai')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="dl-genai">生成式 AI / DDPM</button>
                     <button onclick="filterProjects('rl')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="rl">強化學習 (RL)</button>
+                    <button onclick="filterProjects('nlp')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="nlp">自然語言處理</button>
                     <button onclick="filterProjects('fintech')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="fintech">金融科技 (FinTech)</button>
-                    <button onclick="filterProjects('ml-systems')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="ml-systems">AI 系統 / 資料探勘</button>
+                    <button onclick="filterProjects('ai-apps')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="ai-apps">應用型 AI / Prompt</button>
+                    <button onclick="filterProjects('data-mining')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="data-mining">資料探勘</button>
                 </div>
                 <!-- Search Input -->
                 <div class="relative w-full sm:w-64">
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-500 text-xs"></i>
-                    <input id="search-input" type="text" oninput="searchProjects()" placeholder="搜尋關鍵字 (例如: PyTorch, Gym...)" class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
+                    <input id="search-input" type="text" oninput="searchProjects()" placeholder="搜尋關鍵字 (例如: PyTorch, RAG...)" class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
                 </div>
             </div>
         </section>
@@ -83,21 +175,44 @@
         <!-- Projects Grid -->
         <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
 
+            <!-- Card 0: AI System Practice (Agent Skills / RAG / Memory / CLI SDD) -->
+            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg" style="--card-glow: rgba(249,115,22,0.35)" data-category="ai-systems" data-keywords="hermes agent skill text2sql code-author bug-hunter rag langgraph mcp fastapi bm25 memory pi coding agent sdd argparse cli">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 font-mono">AI Systems / Agent</span>
+                        <span class="text-slate-500 font-mono">AIASE2026</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">AI 系統實作集（Agent / RAG / Memory）</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        4 個 AI 系統工程專案：期末專案 Hermes Agent 四項可驗證 Skill（91.61/100）、個人 RAG 知識庫、BM25 混合檢索記憶層，以及規格驅動開發（SDD）CLI 工具的兩版本演化。
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 pt-2">
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Hermes Agent</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">ChromaDB + RAG</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">BM25 + Hybrid Retrieval</span>
+                    </div>
+                </div>
+                <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
+                    <button onclick="openModal('ai-systems')" class="text-xs text-cyan-400 hover:underline font-medium">深入技術細節 &rarr;</button>
+                    <a href="https://github.com/1eadbloom/AI-System-Practice" target="_blank" class="text-slate-400 hover:text-white"><i class="fa-brands fa-github text-base"></i></a>
+                </div>
+            </div>
+
             <!-- Card 1: DDPM -->
-            <div class="project-card bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-cyan-500/50 transition shadow-lg" data-category="dl-genai" data-keywords="pytorch ddpm diffusion conditional iclevr computer vision">
+            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg" style="--card-glow: rgba(168,85,247,0.35)" data-category="dl-genai" data-keywords="pytorch ddpm diffusion conditional iclevr computer vision cross attention u-net">
                 <div class="space-y-3">
                     <div class="flex items-center justify-between text-xs">
                         <span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 font-mono">Deep Learning</span>
                         <span class="text-slate-500 font-mono">DLP-Lab6</span>
                     </div>
-                    <h3 class="text-lg font-bold text-white group-hover:text-cyan-400">Conditional DDPM 圖像生成</h3>
+                    <h3 class="text-lg font-bold text-white">Conditional DDPM 圖像生成</h3>
                     <p class="text-slate-400 text-xs leading-relaxed">
-                        基於 iCLEVR 多標籤資料集實作條件式去噪擴散模型（Conditional DDPM），完成噪聲排程設計、Condition Embedding 與評估管線。
+                        在 i-CLEVR 多標籤資料集上訓練條件式擴散模型，解決了「屬性配對」(attribute binding) 錯誤問題：改用 Token 序列 + Cross-Attention 後，準確率由 0.67 提升到 0.92。
                     </p>
                     <div class="flex flex-wrap gap-1.5 pt-2">
                         <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">PyTorch</span>
-                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">DDPM</span>
-                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">iCLEVR</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Cross-Attention</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">i-CLEVR</span>
                     </div>
                 </div>
                 <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
@@ -107,20 +222,20 @@
             </div>
 
             <!-- Card 2: DQN -->
-            <div class="project-card bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-cyan-500/50 transition shadow-lg" data-category="rl" data-keywords="pytorch dqn reinforcement learning openai gym replay buffer">
+            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg" style="--card-glow: rgba(16,185,129,0.35)" data-category="rl" data-keywords="pytorch dqn reinforcement learning openai gym atari pong replay buffer double dqn per">
                 <div class="space-y-3">
                     <div class="flex items-center justify-between text-xs">
                         <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">Reinforcement Learning</span>
                         <span class="text-slate-500 font-mono">DLP-Lab5</span>
                     </div>
-                    <h3 class="text-lg font-bold text-white">Deep Q-Network (DQN) 控制器</h3>
+                    <h3 class="text-lg font-bold text-white">Value-Based 強化學習 (DQN 系列)</h3>
                     <p class="text-slate-400 text-xs leading-relaxed">
-                        以 PyTorch 打造 Deep Q-Network Agent，於 OpenAI Gym 環境中訓練策略。優化 Experience Replay 緩衝區與 Target Network 更新機制。
+                        依難度分三關卡：CartPole 上的 Vanilla DQN、Atari Pong 上的 CNN-DQN，最終加上 Double DQN + Prioritized Replay + 3-step Return 打敗 Pong。
                     </p>
                     <div class="flex flex-wrap gap-1.5 pt-2">
                         <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">PyTorch</span>
-                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">OpenAI Gym</span>
-                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">DQN</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Atari / Gym</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Double DQN + PER</span>
                     </div>
                 </div>
                 <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
@@ -129,16 +244,39 @@
                 </div>
             </div>
 
-            <!-- Card 3: FinTech -->
-            <div class="project-card bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-cyan-500/50 transition shadow-lg" data-category="fintech" data-keywords="python ntu fintech backtesting quantitative trading pandas numpy">
+            <!-- Card 3: NLP -->
+            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg" style="--card-glow: rgba(244,63,94,0.35)" data-category="nlp" data-keywords="nlp lstm huggingface transformers rnn treebank ner mongodb whisper ollama youbike sentiment">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="px-2 py-0.5 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20 font-mono">NLP</span>
+                        <span class="text-slate-500 font-mono">Course Assignments</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">自然語言處理課程作業集</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        8 個獨立子專案：中文斷詞與 NER、LSTM 新聞分類器、HuggingFace 情緒分析、新聞爬蟲存入 MongoDB，以及結合 Whisper + 本機 Ollama 的影片摘要工具。
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 pt-2">
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">PyTorch LSTM</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">HuggingFace</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Whisper + Ollama</span>
+                    </div>
+                </div>
+                <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
+                    <button onclick="openModal('nlp')" class="text-xs text-cyan-400 hover:underline font-medium">深入技術細節 &rarr;</button>
+                    <a href="https://github.com/1eadbloom/Nature-Language-Process" target="_blank" class="text-slate-400 hover:text-white"><i class="fa-brands fa-github text-base"></i></a>
+                </div>
+            </div>
+
+            <!-- Card 4: FinTech -->
+            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg" style="--card-glow: rgba(245,158,11,0.35)" data-category="fintech" data-keywords="python ntu fintech backtesting quantitative trading pandas numpy irr bitcoin blockchain technical indicators">
                 <div class="space-y-3">
                     <div class="flex items-center justify-between text-xs">
                         <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-mono">FinTech & Quant</span>
                         <span class="text-slate-500 font-mono">NTU Course</span>
                     </div>
-                    <h3 class="text-lg font-bold text-white">NTU 金融科技與策略回測管線</h3>
+                    <h3 class="text-lg font-bold text-white">量化金融四份作業</h3>
                     <p class="text-slate-400 text-xs leading-relaxed">
-                        針對國立臺灣大學金融科技課程研發，整合 API 進行歷史/即時金融數據清洗、量化交易策略開發與風險指標回測評估。
+                        涵蓋 IRR 內部報酬率計算、技術指標交易策略、比特幣區塊鏈數據分析，到具完整價格資訊下的最適交易策略設計。
                     </p>
                     <div class="flex flex-wrap gap-1.5 pt-2">
                         <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Python</span>
@@ -152,21 +290,21 @@
                 </div>
             </div>
 
-            <!-- Card 4: TAICA AI -->
-            <div class="project-card bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-cyan-500/50 transition shadow-lg" data-category="ml-systems" data-keywords="python taica machine learning evaluation scikit-learn pipeline">
+            <!-- Card 5: TAICA (Applied AI / Prompt Engineering) -->
+            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg" style="--card-glow: rgba(59,130,246,0.35)" data-category="ai-apps" data-keywords="prompt engineering rag vector database llm gemini chatgpt cot chain of thought taica">
                 <div class="space-y-3">
                     <div class="flex items-center justify-between text-xs">
-                        <span class="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20 font-mono">AI Systems</span>
-                        <span class="text-slate-500 font-mono">TAICA Project</span>
+                        <span class="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20 font-mono">Applied AI</span>
+                        <span class="text-slate-500 font-mono">TAICA Course</span>
                     </div>
-                    <h3 class="text-lg font-bold text-white">TAICA 端到端 AI 應用管線</h3>
+                    <h3 class="text-lg font-bold text-white">TAICA 應用型 AI 實作集</h3>
                     <p class="text-slate-400 text-xs leading-relaxed">
-                        結合台灣人工智慧協會實務範疇之 AI 專案，進行模型演算法選型、資料前處理與模型效能調優，呈現完整 ML 架構。
+                        以 Prompt Engineering 為核心的實驗集：CoT 金融諮詢師、RAG 向量資料庫產品助理，以及 Gemini / ChatGPT 雙 LLM 對照測試。
                     </p>
                     <div class="flex flex-wrap gap-1.5 pt-2">
-                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Scikit-Learn</span>
-                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Pipeline</span>
-                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Evaluation</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Prompt Engineering</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">RAG</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">LLM</span>
                     </div>
                 </div>
                 <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
@@ -175,16 +313,16 @@
                 </div>
             </div>
 
-            <!-- Card 5: RapidMiner -->
-            <div class="project-card bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-cyan-500/50 transition shadow-lg" data-category="ml-systems" data-keywords="rapidminer data mining feature engineering workflow cross validation">
+            <!-- Card 6: RapidMiner (Data Mining) -->
+            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg" style="--card-glow: rgba(99,102,241,0.35)" data-category="data-mining" data-keywords="rapidminer data mining feature engineering workflow cross validation titanic classification">
                 <div class="space-y-3">
                     <div class="flex items-center justify-between text-xs">
-                        <span class="px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-mono">Data Science</span>
+                        <span class="px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-mono">Data Mining</span>
                         <span class="text-slate-500 font-mono">RapidMiner</span>
                     </div>
-                    <h3 class="text-lg font-bold text-white">RapidMiner 自動化資料探勘 Workflow</h3>
+                    <h3 class="text-lg font-bold text-white">RapidMiner 資料探勘 Workflow</h3>
                     <p class="text-slate-400 text-xs leading-relaxed">
-                        運用 RapidMiner 建立視覺化 Workflow，涵蓋缺失值補全、特徵選擇、交叉驗證與多分類/迴歸模型比較。
+                        三份視覺化資料探勘作業：鐵達尼號生存預測、Spirit 資料集分類、Smoking 吸菸行為資料分析，涵蓋缺失值處理與模型比較。
                     </p>
                     <div class="flex flex-wrap gap-1.5 pt-2">
                         <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">RapidMiner</span>
@@ -200,38 +338,70 @@
 
         </section>
 
+        <!-- Tech Stack Section -->
+        <section id="stack" class="space-y-4 scroll-mt-20 reveal">
+            <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-layer-group text-cyan-400"></i> 技術棧
+            </h2>
+            <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-5 flex flex-wrap gap-2">
+                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">PyTorch</span>
+                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">HuggingFace Transformers</span>
+                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">LangGraph / RAG</span>
+                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">ChromaDB</span>
+                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">Ollama (本機 LLM)</span>
+                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">OpenAI Whisper</span>
+                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">Pandas / NumPy</span>
+                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">MongoDB</span>
+                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">RapidMiner</span>
+                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">Scikit-Learn</span>
+                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">OpenAI Gym / ALE</span>
+                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">Git / WSL2</span>
+            </div>
+        </section>
+
         <!-- Interactive Playground Section -->
-        <section class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+        <section id="console" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden scroll-mt-20 reveal">
             <div class="p-5 border-b border-slate-800 flex items-center justify-between">
                 <div>
                     <h2 class="text-xl font-bold text-white flex items-center gap-2">
                         <i class="fa-solid fa-terminal text-cyan-400"></i> 一站式核心邏輯測試 Console
                     </h2>
-                    <p class="text-slate-400 text-xs mt-1">招募官可以直接在瀏覽器內模擬執行專案的核心演算法或資料管線。</p>
+                    <p class="text-slate-400 text-xs mt-1">招募官可以直接在瀏覽器內模擬執行專案的核心演算法或資料管線（示意日誌，非即時運算）。</p>
                 </div>
             </div>
-            
+
             <div class="p-5 font-mono text-xs space-y-4">
-                <div class="flex items-center gap-2">
+                <div class="flex flex-wrap items-center gap-2">
                     <span class="text-slate-400">選擇模擬專案：</span>
                     <select id="sim-project" class="bg-slate-950 border border-slate-800 rounded px-2 py-1 text-slate-200">
+                        <option value="ai-systems">Hermes Agent: text2sql Skill 驗證</option>
                         <option value="ddpm">DLP-Lab6: Conditional DDPM Noise Step</option>
                         <option value="dqn">DLP-Lab5: DQN Experience Replay Step</option>
+                        <option value="nlp">NLP: LSTM 新聞分類 Inference</option>
                         <option value="fintech">NTU FinTech: Backtest Execution</option>
+                        <option value="taica">TAICA: RAG 產品諮詢助理 Query</option>
                     </select>
                     <button onclick="runSimulation()" class="bg-cyan-600 hover:bg-cyan-500 text-white px-3 py-1 rounded transition">執行模擬 (Run)</button>
                 </div>
 
-                <div id="sim-output" class="bg-slate-950 p-4 rounded border border-slate-800 text-slate-300 h-40 overflow-y-auto leading-relaxed">
+                <div id="sim-output" class="bg-slate-950 p-4 rounded border border-slate-800 text-slate-300 h-40 overflow-y-auto leading-relaxed whitespace-pre-wrap">
 // 點擊「執行模擬」以檢視專案執行過程與資料串流日誌...
                 </div>
             </div>
         </section>
 
+        <!-- Footer -->
+        <footer class="pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 font-mono">
+            <span>© 2026 徐祥智 (1eadbloom) — NCKU</span>
+            <div class="flex items-center gap-4">
+                <a href="https://github.com/1eadbloom" target="_blank" class="hover:text-cyan-400 transition"><i class="fa-brands fa-github"></i> github.com/1eadbloom</a>
+            </div>
+        </footer>
+
     </main>
 
     <!-- Modal Template for Technical Deep Dive -->
-    <div id="tech-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div id="tech-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" onclick="if(event.target === this) closeModal()">
         <div class="bg-slate-900 border border-slate-800 rounded-xl max-w-2xl w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                 <h3 id="modal-title" class="text-lg font-bold text-white">專案標題</h3>
@@ -247,86 +417,197 @@
     </div>
 
     <script>
-        // Project Detail Modal Data
+        // ---------- Project Detail Modal Data ----------
         const modalDetails = {
+            'ai-systems': {
+                title: 'AI 系統實作集：Agent Skills / RAG / Memory / SDD',
+                github: 'https://github.com/1eadbloom/AI-System-Practice',
+                body: `
+                    <p>整合自 GitHub Classroom 的 4 個獨立 AI 系統工程專案，每個都保留了完整的 commit 開發歷程（透過 <code>git subtree</code> 整併，未壓縮成單一 commit）。</p>
+
+                    <p class="pt-1"><strong class="text-orange-300">① Hermes Agent 期末專案 — 四項可驗證 Skill（91.61 / 100）</strong></p>
+                    <p>在 Hermes coding agent 上打造 4 個可自動評分驗證的 Skill：<code>text2sql</code>（自然語言轉 SQL，以 bag-equality 比對 gold SQL）、<code>code-author</code> 與 <code>bug-hunter</code>（Pairwise 對抗賽制，分別扮演程式撰寫者與抓蟲者對戰 reference 對手）、以及 Open Track 自選題 <code>open-jsonvalidate</code>。所有 skill 皆透過 <code>run_dev.py</code> 本地自動化測試流程驗證。</p>
+
+                    <p class="pt-1"><strong class="text-orange-300">② 個人 RAG 知識庫（Build Your Personal RAG）</strong></p>
+                    <p>知識領域聚焦 AI Agent 框架（LangGraph、MCP、FastAPI），21 份原創技術筆記經清理、段落優先 Chunking（800 字 + 150 字重疊）、<code>sentence-transformers</code> 本地 embedding 後存入 ChromaDB。技術選型刻意避開雲端依賴：embedding 模型本地跑（免 API Key）、LLM 層則用 LiteLLM 統一介面方便切換 provider。另外實作 <code>skill_builder.py</code>，自動對知識庫提出 7 個全域性問題並彙整生成規格化的 <code>skill.md</code> 文件。</p>
+
+                    <p class="pt-1"><strong class="text-orange-300">③ Pi Memory — BM25 混合檢索記憶層</strong></p>
+                    <p>為 Pi coding agent 打造持久記憶層，四階段管線：Capture → SHA-256 去重儲存 → BM25 檢索 → Token 預算感知的 Context 注入。額外實作 BM25 + Sentence-Embedding 的 RRF（Reciprocal Rank Fusion）混合檢索。Baseline corpus 上 BM25 達 Recall@5 0.810、MRR 0.810，與官方參考基準完全吻合；13 項單元測試全數通過。</p>
+
+                    <p class="pt-1"><strong class="text-orange-300">④ CryptoTracker — 規格驅動開發（SDD）CLI 工具</strong></p>
+                    <p>CoinGecko API 串接的加密貨幣查詢 CLI，v1→v2 刻意驗證「三層架構（CLI / 業務邏輯 / 資料存取）+ 依賴注入」的可擴充性：v2.0 新增設定檔、價格警示、多幣比較、RSI 趨勢分析共四項功能，全程<strong>零修改</strong> <code>crypto_api.py</code>，證明架構設計的前瞻性。技術選型上刻意用 <code>argparse</code> 而非 <code>click</code>，換取零依賴啟動與 Lazy Import 相容性。</p>
+
+                    <div class="relative bg-slate-950 p-3 rounded font-mono text-[11px] text-orange-300 border border-slate-800 group">
+                        <button onclick="copyCode(this)" class="absolute top-2 right-2 text-[10px] text-slate-500 hover:text-white bg-slate-800 px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition">複製</button>
+<pre># Pi Memory 混合檢索示意 (memory/hybrid.py)
+from memory.hybrid import hybrid_search
+results = hybrid_search(query, docs, k=8)
+# BM25 lexical rank ⊕ sentence-embedding rank
+# 透過 Reciprocal Rank Fusion (RRF) 融合排序
+</pre>
+                    </div>
+                `
+            },
             'ddpm': {
                 title: 'DLP-Lab6: Conditional DDPM 圖像生成',
                 github: 'https://github.com/1eadbloom/DLP-Lab6-Conditional-DDPM-iclevr',
                 body: `
-                    <p><strong>專案目標：</strong>在 iCLEVR 多標籤資料集上實作條件式去噪擴散概率模型 (DDPM)。</p>
-                    <p><strong>關鍵技術：</strong>Cosine Noise Schedule、Condition Embedding (一熱編碼/類別向量融合)、U-Net 卷積骨幹架構。</p>
-                    <div class="bg-slate-950 p-3 rounded font-mono text-[11px] text-cyan-300 border border-slate-800">
-# 代表性代碼片段 (Noise Scheduling & Loss Loop)
-def p_losses(self, x_start, t, c, noise=None):
-    if noise is None:
-        noise = torch.randn_like(x_start)
-    x_noisy = self.q_sample(x_start=x_start, t=t, noise=noise)
-    predicted_noise = self.model(x_noisy, t, c)
-    loss = F.mse_loss(noise, predicted_noise)
-    return loss
+                    <p><strong>專案目標：</strong>在 i-CLEVR 多標籤資料集（8 色 × 3 形狀，18,009 張影像）上訓練 Conditional DDPM，依 1–3 個物件標籤生成 64×64 影像。</p>
+                    <p><strong>踩坑與關鍵設計：</strong>初版用 multi-hot 條件向量，single-object 準確率僅 0.67，且觀察到「顏色配對錯誤」——目標為 <code>['brown sphere','red cylinder']</code>，卻生成 <code>['gray sphere','red cylinder']</code>，這是典型的 <strong>attribute binding</strong> 失效。改用「每個物件獨立成 token + U-Net 每層皆加入 Cross-Attention」後，test.json 準確率由 0.67 提升到 0.92。</p>
+                    <p><strong>最終成果：</strong>test.json 準確率 <strong class="text-purple-300">0.9167</strong>，new_test.json <strong class="text-purple-300">0.9643</strong>（以 ResNet-18 evaluator 評分，≥0.8 即滿分）。約 70M 參數，T=1000 linear β schedule，AdamW + CosineAnnealingLR，EMA decay 0.9999，推論採 DDIM 100 步。</p>
+                    <div class="relative bg-slate-950 p-3 rounded font-mono text-[11px] text-purple-300 border border-slate-800 group">
+                        <button onclick="copyCode(this)" class="absolute top-2 right-2 text-[10px] text-slate-500 hover:text-white bg-slate-800 px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition">複製</button>
+<pre># 代表性程式碼片段（Cross-Attention 條件注入）
+Query  = image_features            # (B, H*W, C)
+Key    = object_tokens             # (B, MAX_OBJS, C)
+Value  = object_tokens             # (B, MAX_OBJS, C)
+attn_out = CrossAttention(Query, Key, Value)
+# 每個空間位置自行選擇要「長得像」哪一個物件 token
+</pre>
                     </div>
                 `
             },
             'dqn': {
-                title: 'DLP-Lab5: Deep Q-Network 強化學習',
+                title: 'DLP-Lab5: Value-Based 強化學習 (DQN 系列)',
                 github: 'https://github.com/1eadbloom/DLP-Lab5-DQN',
                 body: `
-                    <p><strong>專案目標：</strong>從頭打造 Deep Q-Network Agent 解決經典控制/遊戲環境問題。</p>
-                    <p><strong>關鍵技術：</strong>Experience Replay Buffer、Epsilon-Greedy Exploration Policy、Double-DQN / Target Network 延遲更新。</p>
-                    <div class="bg-slate-950 p-3 rounded font-mono text-[11px] text-emerald-300 border border-slate-800">
-# 代表性代碼片段 (Replay Memory Step)
-def train_step(self):
-    states, actions, rewards, next_states, dones = self.memory.sample(self.batch_size)
-    q_values = self.policy_net(states).gather(1, actions)
-    with torch.no_grad():
-        max_next_q = self.target_net(next_states).max(1)[0].unsqueeze(1)
-        target_q = rewards + (1 - dones) * self.gamma * max_next_q
-    loss = F.smooth_l1_loss(q_values, target_q)
-    self.optimizer.zero_grad(); loss.backward(); self.optimizer.step()
+                    <p><strong>專案目標：</strong>依難度分三個任務，逐步打造 Deep Q-Network Agent。</p>
+                    <table class="w-full text-[11px] border-collapse">
+                        <thead><tr class="text-slate-500 border-b border-slate-800">
+                            <th class="text-left py-1 pr-2">任務</th><th class="text-left py-1 pr-2">環境</th><th class="text-left py-1 pr-2">方法</th><th class="text-left py-1">結果</th>
+                        </tr></thead>
+                        <tbody>
+                            <tr class="border-b border-slate-800/50"><td class="py-1 pr-2">Task 1</td><td class="py-1 pr-2">CartPole-v1</td><td class="py-1 pr-2">Vanilla DQN (MLP)</td><td class="py-1 text-emerald-300">Avg ≈ 480</td></tr>
+                            <tr class="border-b border-slate-800/50"><td class="py-1 pr-2">Task 2</td><td class="py-1 pr-2">ALE/Pong-v5</td><td class="py-1 pr-2">Vanilla DQN (CNN)</td><td class="py-1 text-emerald-300">Avg ≈ 14.2</td></tr>
+                            <tr><td class="py-1 pr-2">Task 3</td><td class="py-1 pr-2">ALE/Pong-v5</td><td class="py-1 pr-2">Double DQN + PER + Multi-step</td><td class="py-1 text-emerald-300">Best ≈ +1.05</td></tr>
+                        </tbody>
+                    </table>
+                    <p><strong>關鍵技術：</strong>Task 3 疊加了 <strong>Double DQN</strong>（拆分動作選擇與評估）、<strong>Prioritized Experience Replay</strong>（α=0.6，β 由 0.4 退火至 1.0）與 <strong>3-step Multi-step Return</strong>，讓 Agent 在稀疏獎勵的 Pong 環境中，從平均 14.2 分逆轉到轉正。</p>
+                    <div class="relative bg-slate-950 p-3 rounded font-mono text-[11px] text-emerald-300 border border-slate-800 group">
+                        <button onclick="copyCode(this)" class="absolute top-2 right-2 text-[10px] text-slate-500 hover:text-white bg-slate-800 px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition">複製</button>
+<pre># Prioritized Replay 抽樣（節錄自 dqn.py）
+class PrioritizedReplayBuffer:
+    def sample(self, batch_size):
+        # 依 TD-error 轉換出的優先度做加權抽樣
+        ...
+    def update_priorities(self, indices, errors):
+        # 每次更新後回寫新的優先度
+        ...
+</pre>
                     </div>
                 `
             },
+            'nlp': {
+                title: '自然語言處理課程作業集（8 個子專案）',
+                github: 'https://github.com/1eadbloom/Nature-Language-Process',
+                body: `
+                    <p>整學期累積的 NLP 實作集，從古典的語料庫前處理到 LLM 應用工具都有涵蓋：</p>
+                    <ul class="space-y-2 list-disc list-inside">
+                        <li><strong class="text-rose-300">Chinese Treebank 前處理：</strong>使用中研院 Sinica Treebank 進行斷詞、詞性標註與 NER；發現 stanza 的 zh-hant 模型不支援 NER，改用 zh（簡體）模型驗證其對繁體文字仍可正確辨識，並優化語料庫讀取效能。</li>
+                        <li><strong class="text-rose-300">RNN 3C 產品評論情緒分析：</strong>以 BeautifulSoup 解析 XML 格式手機評論資料集，將 polarity 標籤轉為數值後訓練 RNN 分類器。</li>
+                        <li><strong class="text-rose-300">玻璃等級劃分（PyTorch 多元分類）：</strong>214 筆玻璃成分資料，加入混淆矩陣視覺化，調整層數 / 學習率突破 70% 準確率門檻。</li>
+                        <li><strong class="text-rose-300">新聞爬蟲 + MongoDB：</strong>爬取多家報社熱門新聞的標題、連結、發布時間，整理為 JSON 並寫入本機 MongoDB 驗證存取正確性。</li>
+                        <li><strong class="text-rose-300">LSTM 新聞分類器（期末考）：</strong>PyTorch 雙向兩層 LSTM，於 AG News 資料集上做主題分類。</li>
+                        <li><strong class="text-rose-300">HuggingFace 情緒分析 pipeline（期末考）：</strong>以 transformers pipeline 快速建構推論流程。</li>
+                        <li><strong class="text-rose-300">YouBike 即時資料讀取（期末考）：</strong>pandas 直接讀取台北 YouBike 即時 JSON API，進行資料清洗與欄位分析。</li>
+                        <li><strong class="text-rose-300">LLM 影片逐字稿與摘要工具：</strong>結合 <code>yt-dlp</code> 下載音訊、<code>Whisper</code> 轉錄逐字稿、本機 <code>Ollama</code> LLM 生成摘要，全流程在 VSCode 本機環境自動化安裝與執行，不依賴雲端 API。</li>
+                    </ul>
+                `
+            },
             'fintech': {
-                title: 'NTU 金融科技與量化策略回測',
+                title: 'NTU 金融科技四份作業',
                 github: 'https://github.com/1eadbloom/Fintech-for-NTU-course',
                 body: `
-                    <p><strong>專案目標：</strong>設計自動化金融數據抓取與量化交易策略回測架構。</p>
-                    <p><strong>關鍵技術：</strong>Pandas/NumPy 向量化計算、Sharpe Ratio / Max Drawdown 計算、歷史數據清洗與特徵提取。</p>
-                    <div class="bg-slate-950 p-3 rounded font-mono text-[11px] text-amber-300 border border-slate-800">
-# 代表性代碼片段 (Backtest Strategy Pipeline)
-def compute_strategy_metrics(df, signals):
-    df['returns'] = df['close'].pct_change()
-    df['strategy_returns'] = df['returns'] * signals.shift(1)
-    cum_returns = (1 + df['strategy_returns']).cumprod()
-    sharpe_ratio = (df['strategy_returns'].mean() / df['strategy_returns'].std()) * np.sqrt(252)
-    return cum_returns, sharpe_ratio
+                    <p><strong>專案目標：</strong>國立臺灣大學金融科技課程作業，由淺入深練習量化金融的核心計算與策略設計。</p>
+                    <ul class="space-y-1.5 list-disc list-inside">
+                        <li><strong class="text-amber-300">HW01 – IRR 內部報酬率計算器：</strong>實作 <code>irrFind.py</code>，計算現金流的內部報酬率。</li>
+                        <li><strong class="text-amber-300">HW02 – 技術指標交易策略：</strong>以技術指標建構進出場訊號並評估績效。</li>
+                        <li><strong class="text-amber-300">HW03 – 比特幣區塊鏈數據分析：</strong>解析區塊鏈資料進行量化分析。</li>
+                        <li><strong class="text-amber-300">HW04 – 最適交易策略：</strong>在具備完整價格資訊的前提下，設計最適交易策略。</li>
+                    </ul>
+                    <div class="relative bg-slate-950 p-3 rounded font-mono text-[11px] text-amber-300 border border-slate-800 group">
+                        <button onclick="copyCode(this)" class="absolute top-2 right-2 text-[10px] text-slate-500 hover:text-white bg-slate-800 px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition">複製</button>
+<pre># 示意：策略績效指標計算 (Sharpe Ratio)
+df['returns'] = df['close'].pct_change()
+df['strategy_returns'] = df['returns'] * signals.shift(1)
+sharpe_ratio = (df['strategy_returns'].mean()
+                / df['strategy_returns'].std()) * np.sqrt(252)
+</pre>
                     </div>
                 `
             },
             'taica': {
-                title: 'TAICA 端到端 AI 應用與評估管線',
+                title: 'TAICA 應用型 AI / Prompt Engineering 實作集',
                 github: 'https://github.com/1eadbloom/TAICA_-AI-',
                 body: `
-                    <p><strong>專案目標：</strong>建構完整機器學習預測與特徵工程自動化管線。</p>
-                    <p><strong>關鍵技術：</strong>Feature Pipeline、Cross-Validation、GridSearchCV 超參數調優。</p>
+                    <p><strong>專案目標：</strong>台灣人工智慧學校課程中，以 Prompt Engineering 為核心的一系列應用型 AI 實驗，重點在「如何設計提示詞與架構讓 LLM 穩定產出可用結果」。</p>
+                    <ul class="space-y-1.5 list-disc list-inside">
+                        <li><strong class="text-blue-300">CoT AI 金融諮詢師：</strong>以 Chain-of-Thought prompting 設計具備逐步推理過程的投資建議助理。</li>
+                        <li><strong class="text-blue-300">向量資料庫 RAG 產品諮詢助理：</strong>建立向量資料庫並串接 RAG 架構，實作可回答產品問題的諮詢助理。</li>
+                        <li><strong class="text-blue-300">雙 LLM 生成對照測試：</strong>以同一道費氏數列計算器題目比較 Gemini 與 ChatGPT 的程式生成品質。</li>
+                        <li><strong class="text-blue-300">Prompt Engineering 投資助理 AI：</strong>設計結構化提示詞，打造投資決策輔助對話機器人。</li>
+                        <li><strong class="text-blue-300">神經網路手寫辨識 / Softmax 模型測試：</strong>基礎神經網路與 Softmax 分類器實作比較。</li>
+                    </ul>
                 `
             },
             'rapidminer': {
-                title: 'RapidMiner 資料探勘視覺化 Workflow',
+                title: 'RapidMiner 資料探勘 Workflow',
                 github: 'https://github.com/1eadbloom/-_RapidMiner',
                 body: `
-                    <p><strong>專案目標：</strong>運用 RapidMiner 建立資料探勘、機器學習與決策支援模型。</p>
-                    <p><strong>關鍵技術：</strong>Data Imputation、PCA 降維、Decision Tree / Random Forest 模型比較。</p>
+                    <p><strong>專案目標：</strong>運用 RapidMiner 視覺化 Workflow 完成三份資料探勘作業，練習缺失值處理、特徵篩選與模型比較的完整流程。</p>
+                    <ul class="space-y-1.5 list-disc list-inside">
+                        <li><strong class="text-indigo-300">Titanic 生存預測：</strong>缺失值補全、特徵篩選後比較多種分類模型的存活率預測表現。</li>
+                        <li><strong class="text-indigo-300">Spirit 資料集分類：</strong>以交叉驗證比較多種分類器效能。</li>
+                        <li><strong class="text-indigo-300">Smoking 吸菸行為資料分析：</strong>探索吸菸行為與其他變數的關聯，比較迴歸 / 分類模型表現。</li>
+                    </ul>
                 `
             }
         };
 
+        // ---------- Boot terminal (signature hero element) ----------
+        const bootLines = [
+            { p: '$ whoami', c: 'text-slate-300' },
+            { p: '徐祥智 · NCKU · AI/ML 工程實作與求職作品集', c: 'text-cyan-300' },
+            { p: '$ ls ./skills', c: 'text-slate-300' },
+            { p: 'PyTorch  Diffusion  RL  NLP  RAG  Quant-Finance', c: 'text-cyan-300' },
+            { p: '$ cat ./status', c: 'text-slate-300' },
+            { p: '6 projects indexed · 20+ notebooks/scripts · building...', c: 'text-emerald-300' },
+        ];
+
+        function typeBootTerminal() {
+            const el = document.getElementById('boot-terminal');
+            if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                el.innerHTML = bootLines.map(l => `<div class="${l.c}">${l.p}</div>`).join('');
+                return;
+            }
+            let lineIdx = 0;
+            function typeLine() {
+                if (lineIdx >= bootLines.length) return;
+                const line = bootLines[lineIdx];
+                const div = document.createElement('div');
+                div.className = line.c;
+                el.appendChild(div);
+                let charIdx = 0;
+                const interval = setInterval(() => {
+                    div.textContent = line.p.slice(0, charIdx + 1);
+                    charIdx++;
+                    if (charIdx >= line.p.length) {
+                        clearInterval(interval);
+                        lineIdx++;
+                        setTimeout(typeLine, 180);
+                    }
+                }, 16);
+            }
+            typeLine();
+        }
+
+        // ---------- Filtering & search ----------
         function filterProjects(cat) {
             const cards = document.querySelectorAll('.project-card');
             const buttons = document.querySelectorAll('.filter-btn');
 
             buttons.forEach(btn => {
-                if(btn.dataset.cat === cat) {
+                if (btn.dataset.cat === cat) {
                     btn.className = "filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-600 text-white transition";
                 } else {
                     btn.className = "filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
@@ -334,7 +615,7 @@ def compute_strategy_metrics(df, signals):
             });
 
             cards.forEach(card => {
-                if(cat === 'all' || card.dataset.category === cat) {
+                if (cat === 'all' || card.dataset.category === cat) {
                     card.classList.remove('hidden');
                 } else {
                     card.classList.add('hidden');
@@ -349,7 +630,7 @@ def compute_strategy_metrics(df, signals):
             cards.forEach(card => {
                 const keywords = card.dataset.keywords.toLowerCase();
                 const text = card.innerText.toLowerCase();
-                if(keywords.includes(query) || text.includes(query)) {
+                if (keywords.includes(query) || text.includes(query)) {
                     card.classList.remove('hidden');
                 } else {
                     card.classList.add('hidden');
@@ -357,9 +638,10 @@ def compute_strategy_metrics(df, signals):
             });
         }
 
+        // ---------- Modal ----------
         function openModal(key) {
             const detail = modalDetails[key];
-            if(!detail) return;
+            if (!detail) return;
             document.getElementById('modal-title').innerText = detail.title;
             document.getElementById('modal-content').innerHTML = detail.body + `<p class="pt-2"><a href="${detail.github}" target="_blank" class="text-cyan-400 hover:underline"><i class="fa-brands fa-github"></i> 前往 GitHub 原始碼頁面</a></p>`;
             document.getElementById('tech-modal').classList.remove('hidden');
@@ -369,18 +651,56 @@ def compute_strategy_metrics(df, signals):
             document.getElementById('tech-modal').classList.add('hidden');
         }
 
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        function copyCode(btn) {
+            const pre = btn.nextElementSibling;
+            navigator.clipboard.writeText(pre.innerText).then(() => {
+                const original = btn.innerText;
+                btn.innerText = '已複製';
+                setTimeout(() => { btn.innerText = original; }, 1200);
+            });
+        }
+
+        // ---------- CLI simulation ----------
         function runSimulation() {
             const proj = document.getElementById('sim-project').value;
             const output = document.getElementById('sim-output');
-            
-            if(proj === 'ddpm') {
-                output.innerText = "[INFO] Initializing Conditional DDPM Model...\n[INFO] Noise Timesteps T=1000, Beta schedule: cosine\n[STEP 001] Condition embedding injected: [1, 0, 1]\n[STEP 250] Denoising Loss: 0.0421\n[STEP 500] Denoising Loss: 0.0118\n[SUCCESS] Image synthesized successfully in 1.24s.";
-            } else if(proj === 'dqn') {
-                output.innerText = "[INFO] Loading Gym Environment: CartPole-v1\n[INFO] Replay Memory Capacity: 10,000\n[EPISODE 10] Average Reward: 22.4, Epsilon: 0.85\n[EPISODE 50] Average Reward: 145.2, Epsilon: 0.21\n[EPISODE 100] Average Reward: 200.0 (Solved!), Epsilon: 0.05";
-            } else if(proj === 'fintech') {
-                output.innerText = "[INFO] Fetching historical stock ticks via API...\n[INFO] Executing Moving Average Crossover Strategy\n[RESULT] Total Trades: 142 | Win Rate: 62.4%\n[METRIC] Annualized Return: 18.5% | Sharpe Ratio: 1.84 | Max Drawdown: -8.2%";
-            }
+            const logs = {
+                'ai-systems': "[INFO] hermes chat --toolsets skills -q '/text2sql-1eadbloom {...}'\n[INFO] Generated SQL compared against gold_sql via bag-equality\n[RESULT] dev_set/basic: 18/20 queries passed\n[INFO] Running Pairwise round: code-author vs reference-bug-hunter-aggressive\n[RESULT] Final aggregated score: 91.61 / 100",
+                ddpm: "[INFO] Initializing Conditional DDPM Model...\n[INFO] Noise Timesteps T=1000, Beta schedule: linear\n[STEP 001] Object tokens: ['red sphere', 'cyan cylinder']\n[STEP 250] Cross-Attention denoising loss: 0.0421\n[STEP 750] Cross-Attention denoising loss: 0.0093\n[EVAL] ResNet-18 evaluator accuracy: 0.9167 (test.json)\n[SUCCESS] Image synthesized via DDIM (100 steps) in 1.24s.",
+                dqn: "[INFO] Loading Gym Environment: ALE/Pong-v5\n[INFO] Prioritized Replay Buffer capacity: 100,000 (alpha=0.6)\n[EPISODE 50]  Avg Reward: -18.4, Beta: 0.42\n[EPISODE 400] Avg Reward: -2.1,  Beta: 0.71\n[EPISODE 900] Avg Reward: +1.05 (Double DQN + PER + 3-step), Beta: 1.00",
+                nlp: "[INFO] Loading AG News dataset...\n[INFO] Model: Bidirectional 2-layer LSTM (PyTorch)\n[BATCH 1] input: \"Fed raises interest rates amid inflation concerns\"\n[BATCH 1] predicted_class: Business (0.91 confidence)\n[EVAL] Test accuracy: 90.4%\n[SUCCESS] Inference completed in 0.08s/sample.",
+                fintech: "[INFO] Fetching historical BTC & equity price ticks...\n[INFO] Executing Technical-Indicator Crossover Strategy (HW02)\n[RESULT] Total Trades: 142 | Win Rate: 62.4%\n[METRIC] Annualized Return: 18.5% | Sharpe Ratio: 1.84 | Max Drawdown: -8.2%",
+                taica: "[INFO] Loading product FAQ corpus into vector store...\n[INFO] Query: \"這個方案支援跨境退貨嗎？\"\n[RETRIEVE] Top-3 chunks retrieved (cosine sim > 0.82)\n[GENERATE] Grounded answer synthesized with citation to source chunk #2\n[SUCCESS] RAG round-trip latency: 640ms.",
+            };
+            output.innerText = logs[proj] || '';
         }
+
+        // ---------- Scroll reveal ----------
+        function initScrollReveal() {
+            const items = document.querySelectorAll('.reveal');
+            if (!('IntersectionObserver' in window)) {
+                items.forEach(el => el.classList.add('in-view'));
+                return;
+            }
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            items.forEach(el => observer.observe(el));
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            typeBootTerminal();
+            initScrollReveal();
+        });
     </script>
 </body>
 </html>
