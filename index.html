@@ -160,42 +160,40 @@
 
         <!-- Filter & Search Bar -->
         <section id="projects" class="space-y-4 scroll-mt-20">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/60 p-4 border border-slate-800 rounded-xl">
-                <!-- Category Controls -->
-                <div class="flex flex-wrap items-center gap-2" id="filter-controls">
-                    <button onclick="showAllProjects()" id="all-projects-btn" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-600 text-white transition">全部專案 (8)</button>
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-center flex-wrap gap-3 bg-slate-900/60 p-4 border border-slate-800 rounded-xl">
+                <button onclick="showAllProjects()" id="all-projects-btn" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-600 text-white transition">全部專案 (8)</button>
 
-                    <select id="topic-select" onchange="filterByTopic(this.value)" class="bg-slate-800 border border-slate-700 text-slate-300 text-xs rounded-lg px-3 py-1.5 text-center focus:outline-none focus:border-cyan-500 hover:bg-slate-700 transition" style="text-align-last: center;">
-                        <option value="" disabled selected hidden>依主題區分</option>
-                        <option value="ai-systems">AI 系統 / Agent</option>
-                        <option value="deep-learning">深度學習</option>
-                        <option value="nlp">自然語言處理</option>
-                        <option value="ml-analytics">監督式學習</option>
-                        <option value="fintech">金融科技 (FinTech)</option>
-                        <option value="ai-apps">應用型 AI / Prompt</option>
-                        <option value="voice-ai">語音互動應用</option>
-                        <option value="data-mining">資料探勘</option>
-                    </select>
+                <select id="topic-select" onchange="filterByTopic(this.value)" class="bg-slate-800 border border-slate-700 text-slate-300 text-xs rounded-lg px-3 py-1.5 text-center focus:outline-none focus:border-cyan-500 hover:bg-slate-700 transition" style="text-align-last: center;">
+                    <option value="" disabled selected hidden>依主題區分</option>
+                    <option value="ai-systems">AI 系統 / Agent</option>
+                    <option value="deep-learning">深度學習</option>
+                    <option value="nlp">自然語言處理</option>
+                    <option value="ml-analytics">監督式學習</option>
+                    <option value="fintech">金融科技 (FinTech)</option>
+                    <option value="ai-apps">應用型 AI / Prompt</option>
+                    <option value="voice-ai">語音互動應用</option>
+                    <option value="data-mining">資料探勘</option>
+                </select>
 
-                    <select id="tech-select" onchange="filterByTech(this.value)" class="bg-slate-800 border border-slate-700 text-slate-300 text-xs rounded-lg px-3 py-1.5 text-center focus:outline-none focus:border-cyan-500 hover:bg-slate-700 transition" style="text-align-last: center;">
-                        <option value="" disabled selected hidden>依技術區分</option>
-                        <option value="pytorch">PyTorch</option>
-                        <option value="huggingface">HuggingFace Transformers</option>
-                        <option value="rag">LangGraph / RAG</option>
-                        <option value="chromadb">ChromaDB</option>
-                        <option value="bm25">BM25 / Hybrid Retrieval</option>
-                        <option value="ollama">Ollama（本機 LLM）</option>
-                        <option value="whisper">OpenAI Whisper</option>
-                        <option value="pandas">Pandas / NumPy</option>
-                        <option value="mongodb">MongoDB</option>
-                        <option value="sklearn">Scikit-Learn</option>
-                        <option value="gym">OpenAI Gym / ALE</option>
-                        <option value="flask">Flask</option>
-                        <option value="docker">Docker</option>
-                        <option value="watson">IBM Watson (STT/TTS)</option>
-                        <option value="rapidminer">RapidMiner</option>
-                    </select>
-                </div>
+                <select id="tech-select" onchange="filterByTech(this.value)" class="bg-slate-800 border border-slate-700 text-slate-300 text-xs rounded-lg px-3 py-1.5 text-center focus:outline-none focus:border-cyan-500 hover:bg-slate-700 transition" style="text-align-last: center;">
+                    <option value="" disabled selected hidden>依技術區分</option>
+                    <option value="pytorch">PyTorch</option>
+                    <option value="huggingface">HuggingFace Transformers</option>
+                    <option value="rag">LangGraph / RAG</option>
+                    <option value="chromadb">ChromaDB</option>
+                    <option value="bm25">BM25 / Hybrid Retrieval</option>
+                    <option value="ollama">Ollama（本機 LLM）</option>
+                    <option value="whisper">OpenAI Whisper</option>
+                    <option value="pandas">Pandas / NumPy</option>
+                    <option value="mongodb">MongoDB</option>
+                    <option value="sklearn">Scikit-Learn</option>
+                    <option value="gym">OpenAI Gym / ALE</option>
+                    <option value="flask">Flask</option>
+                    <option value="docker">Docker</option>
+                    <option value="watson">IBM Watson (STT/TTS)</option>
+                    <option value="rapidminer">RapidMiner</option>
+                </select>
+
                 <!-- Search Input -->
                 <div class="relative w-full sm:w-64">
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-500 text-xs"></i>
