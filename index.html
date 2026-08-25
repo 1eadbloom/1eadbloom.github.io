@@ -55,6 +55,19 @@
             transform: translateY(-4px);
             box-shadow: 0 12px 30px -10px var(--card-glow, rgba(6,182,212,0.35));
         }
+        .project-card:hover .fa-arrow-right {
+            transform: translateX(4px);
+            color: #22d3ee;
+        }
+        .project-card .fa-arrow-right {
+            transition: transform 0.25s ease, color 0.25s ease;
+        }
+
+        /* Keep the dropdown's own selected-state text centered, but option list items left-aligned */
+        #topic-select option,
+        #tech-select option {
+            text-align: left;
+        }
 
         /* Blinking terminal cursor */
         .caret::after {
@@ -88,11 +101,6 @@
                 </span>
                 <span class="font-mono font-bold text-lg tracking-wider text-slate-100">1eadbloom<span class="text-cyan-500">.dev</span></span>
             </div>
-            <nav class="hidden sm:flex items-center gap-6 font-mono text-xs text-slate-400">
-                <a href="#projects" class="hover:text-cyan-400 transition">./projects</a>
-                <a href="#stack" class="hover:text-cyan-400 transition">./stack</a>
-                <a href="#console" class="hover:text-cyan-400 transition">./console</a>
-            </nav>
             <div class="flex items-center space-x-4">
                 <a href="https://github.com/1eadbloom" target="_blank" class="text-slate-400 hover:text-white text-sm font-medium transition flex items-center gap-2 border border-slate-800 px-3 py-1.5 rounded-lg bg-slate-900">
                     <i class="fa-brands fa-github text-base"></i> <span class="hidden sm:inline">GitHub Profile</span>
@@ -111,10 +119,10 @@
                 </div>
                 <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
                     徐祥智 (1eadbloom) <br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-400">求職專案與技術作品集</span>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-400">專案與技術作品集</span>
                 </h1>
                 <p class="text-slate-400 text-base sm:text-lg max-w-2xl leading-relaxed">
-                    國立成功大學在學生，專注於<strong class="text-slate-200 font-medium">生成式 AI（DDPM）</strong>、<strong class="text-slate-200 font-medium">深度強化學習（DQN）</strong>、<strong class="text-slate-200 font-medium">自然語言處理</strong>與<strong class="text-slate-200 font-medium">量化金融科技</strong>。每個專案都附上真實的技術細節與踩坑紀錄，而非成果展示的表面文字。
+                    國立政治大學畢業生，專注於<strong class="text-slate-200 font-medium">生成式 AI（DDPM）</strong>、<strong class="text-slate-200 font-medium">自然語言處理</strong>、<strong class="text-slate-200 font-medium">深度強化學習（DQN）</strong>、<strong class="text-slate-200 font-medium">資料分析</strong>與<strong class="text-slate-200 font-medium">量化金融科技</strong>。
                 </p>
             </div>
 
@@ -133,7 +141,7 @@
         <!-- Stats strip -->
         <section class="grid grid-cols-2 sm:grid-cols-4 gap-3 reveal">
             <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-center">
-                <div class="text-2xl font-extrabold text-cyan-400 font-mono">7</div>
+                <div class="text-2xl font-extrabold text-cyan-400 font-mono">8</div>
                 <div class="text-[11px] text-slate-500 mt-1">已整理專案</div>
             </div>
             <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-center">
@@ -153,16 +161,40 @@
         <!-- Filter & Search Bar -->
         <section id="projects" class="space-y-4 scroll-mt-20">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/60 p-4 border border-slate-800 rounded-xl">
-                <!-- Category Buttons -->
-                <div class="flex flex-wrap gap-2" id="filter-buttons">
-                    <button onclick="filterProjects('all')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-600 text-white transition" data-cat="all">全部專案 (7)</button>
-                    <button onclick="filterProjects('ai-systems')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="ai-systems">AI 系統 / Agent</button>
-                    <button onclick="filterProjects('dl-genai')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="dl-genai">生成式 AI / DDPM</button>
-                    <button onclick="filterProjects('rl')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="rl">強化學習 (RL)</button>
-                    <button onclick="filterProjects('nlp')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="nlp">自然語言處理</button>
-                    <button onclick="filterProjects('fintech')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="fintech">金融科技 (FinTech)</button>
-                    <button onclick="filterProjects('ai-apps')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="ai-apps">應用型 AI / Prompt</button>
-                    <button onclick="filterProjects('data-mining')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="data-mining">資料探勘</button>
+                <!-- Category Controls -->
+                <div class="flex flex-wrap items-center gap-2" id="filter-controls">
+                    <button onclick="showAllProjects()" id="all-projects-btn" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-600 text-white transition">全部專案 (8)</button>
+
+                    <select id="topic-select" onchange="filterByTopic(this.value)" class="bg-slate-800 border border-slate-700 text-slate-300 text-xs rounded-lg px-3 py-1.5 text-center focus:outline-none focus:border-cyan-500 hover:bg-slate-700 transition" style="text-align-last: center;">
+                        <option value="" disabled selected hidden>依主題區分</option>
+                        <option value="ai-systems">AI 系統 / Agent</option>
+                        <option value="deep-learning">深度學習</option>
+                        <option value="nlp">自然語言處理</option>
+                        <option value="ml-analytics">監督式學習</option>
+                        <option value="fintech">金融科技 (FinTech)</option>
+                        <option value="ai-apps">應用型 AI / Prompt</option>
+                        <option value="voice-ai">語音互動應用</option>
+                        <option value="data-mining">資料探勘</option>
+                    </select>
+
+                    <select id="tech-select" onchange="filterByTech(this.value)" class="bg-slate-800 border border-slate-700 text-slate-300 text-xs rounded-lg px-3 py-1.5 text-center focus:outline-none focus:border-cyan-500 hover:bg-slate-700 transition" style="text-align-last: center;">
+                        <option value="" disabled selected hidden>依技術區分</option>
+                        <option value="pytorch">PyTorch</option>
+                        <option value="huggingface">HuggingFace Transformers</option>
+                        <option value="rag">LangGraph / RAG</option>
+                        <option value="chromadb">ChromaDB</option>
+                        <option value="bm25">BM25 / Hybrid Retrieval</option>
+                        <option value="ollama">Ollama（本機 LLM）</option>
+                        <option value="whisper">OpenAI Whisper</option>
+                        <option value="pandas">Pandas / NumPy</option>
+                        <option value="mongodb">MongoDB</option>
+                        <option value="sklearn">Scikit-Learn</option>
+                        <option value="gym">OpenAI Gym / ALE</option>
+                        <option value="flask">Flask</option>
+                        <option value="docker">Docker</option>
+                        <option value="watson">IBM Watson (STT/TTS)</option>
+                        <option value="rapidminer">RapidMiner</option>
+                    </select>
                 </div>
                 <!-- Search Input -->
                 <div class="relative w-full sm:w-64">
@@ -172,11 +204,12 @@
             </div>
         </section>
 
+
         <!-- Projects Grid -->
         <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
 
-            <!-- Card 0: AI System Practice (Agent Skills / RAG / Memory / CLI SDD) -->
-            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg" style="--card-glow: rgba(249,115,22,0.35)" data-category="ai-systems" data-keywords="hermes agent skill text2sql code-author bug-hunter rag langgraph mcp fastapi bm25 memory pi coding agent sdd argparse cli">
+            <!-- Card 1: AI System Practices (Agent Skills / RAG / Memory / CLI SDD) -->
+            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg cursor-pointer" style="--card-glow: rgba(249,115,22,0.35)" data-category="ai-systems" data-tech="rag chromadb bm25" data-keywords="hermes agent skill text2sql code-author bug-hunter rag langgraph mcp fastapi bm25 memory pi coding agent sdd argparse cli" onclick="openModal('ai-systems')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal('ai-systems')">
                 <div class="space-y-3">
                     <div class="flex items-center justify-between text-xs">
                         <span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 font-mono">AI Systems / Agent</span>
@@ -193,59 +226,36 @@
                     </div>
                 </div>
                 <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
-                    <button onclick="openModal('ai-systems')" class="text-xs text-cyan-400 hover:underline font-medium">深入技術細節 &rarr;</button>
-                    <a href="https://github.com/1eadbloom/AI-System-Practice" target="_blank" class="text-slate-400 hover:text-white"><i class="fa-brands fa-github text-base"></i></a>
+                    <a href="https://github.com/1eadbloom/AI-System-practices" target="_blank" onclick="event.stopPropagation()" class="text-xs text-slate-400 hover:text-white flex items-center gap-1.5"><i class="fa-brands fa-github text-base"></i> GitHub</a>
+                    <i class="fa-solid fa-arrow-right text-slate-600 text-xs"></i>
                 </div>
             </div>
 
-            <!-- Card 1: DDPM -->
-            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg" style="--card-glow: rgba(168,85,247,0.35)" data-category="dl-genai" data-keywords="pytorch ddpm diffusion conditional iclevr computer vision cross attention u-net">
+            <!-- Card 2: Deep-Learning (merged: DDPM + DQN + Binary Segmentation) -->
+            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg cursor-pointer" style="--card-glow: rgba(168,85,247,0.35)" data-category="deep-learning" data-tech="pytorch gym" data-keywords="pytorch ddpm diffusion conditional iclevr cross attention u-net dqn reinforcement learning atari pong unet resnet34 semantic segmentation oxford pet dice" onclick="openModal('deep-learning')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal('deep-learning')">
                 <div class="space-y-3">
                     <div class="flex items-center justify-between text-xs">
                         <span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 font-mono">Deep Learning</span>
-                        <span class="text-slate-500 font-mono">DLP-Lab6</span>
+                        <span class="text-slate-500 font-mono">NYCU DLP</span>
                     </div>
-                    <h3 class="text-lg font-bold text-white">Conditional DDPM 圖像生成</h3>
+                    <h3 class="text-lg font-bold text-white">深度學習三部曲：生成 / 強化 / 分割</h3>
                     <p class="text-slate-400 text-xs leading-relaxed">
-                        在 i-CLEVR 多標籤資料集上訓練條件式擴散模型，解決了「屬性配對」(attribute binding) 錯誤問題：改用 Token 序列 + Cross-Attention 後，準確率由 0.67 提升到 0.92。
+                        三個 NYCU 深度學習課程 Lab 整併成一個 repo：Conditional DDPM 圖像生成（準確率 0.92）、DQN 強化學習系列（CartPole → Atari Pong），以及 UNet / ResNet34-UNet 語意分割（Dice 0.91）。
                     </p>
                     <div class="flex flex-wrap gap-1.5 pt-2">
                         <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">PyTorch</span>
-                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Cross-Attention</span>
-                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">i-CLEVR</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Diffusion + RL + CV</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">3 Labs / 1 Repo</span>
                     </div>
                 </div>
                 <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
-                    <button onclick="openModal('ddpm')" class="text-xs text-cyan-400 hover:underline font-medium">深入技術細節 &rarr;</button>
-                    <a href="https://github.com/1eadbloom/DLP-Lab6-Conditional-DDPM-iclevr" target="_blank" class="text-slate-400 hover:text-white"><i class="fa-brands fa-github text-base"></i></a>
-                </div>
-            </div>
-
-            <!-- Card 2: DQN -->
-            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg" style="--card-glow: rgba(16,185,129,0.35)" data-category="rl" data-keywords="pytorch dqn reinforcement learning openai gym atari pong replay buffer double dqn per">
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between text-xs">
-                        <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">Reinforcement Learning</span>
-                        <span class="text-slate-500 font-mono">DLP-Lab5</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-white">Value-Based 強化學習 (DQN 系列)</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">
-                        依難度分三關卡：CartPole 上的 Vanilla DQN、Atari Pong 上的 CNN-DQN，最終加上 Double DQN + Prioritized Replay + 3-step Return 打敗 Pong。
-                    </p>
-                    <div class="flex flex-wrap gap-1.5 pt-2">
-                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">PyTorch</span>
-                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Atari / Gym</span>
-                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Double DQN + PER</span>
-                    </div>
-                </div>
-                <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
-                    <button onclick="openModal('dqn')" class="text-xs text-cyan-400 hover:underline font-medium">深入技術細節 &rarr;</button>
-                    <a href="https://github.com/1eadbloom/DLP-Lab5-DQN" target="_blank" class="text-slate-400 hover:text-white"><i class="fa-brands fa-github text-base"></i></a>
+                    <a href="https://github.com/1eadbloom/Deep-Learning" target="_blank" onclick="event.stopPropagation()" class="text-xs text-slate-400 hover:text-white flex items-center gap-1.5"><i class="fa-brands fa-github text-base"></i> GitHub</a>
+                    <i class="fa-solid fa-arrow-right text-slate-600 text-xs"></i>
                 </div>
             </div>
 
             <!-- Card 3: NLP -->
-            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg" style="--card-glow: rgba(244,63,94,0.35)" data-category="nlp" data-keywords="nlp lstm huggingface transformers rnn treebank ner mongodb whisper ollama youbike sentiment">
+            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg cursor-pointer" style="--card-glow: rgba(244,63,94,0.35)" data-category="nlp" data-tech="pytorch huggingface mongodb whisper ollama" data-keywords="nlp lstm huggingface transformers rnn treebank ner mongodb whisper ollama youbike sentiment" onclick="openModal('nlp')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal('nlp')">
                 <div class="space-y-3">
                     <div class="flex items-center justify-between text-xs">
                         <span class="px-2 py-0.5 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20 font-mono">NLP</span>
@@ -262,13 +272,36 @@
                     </div>
                 </div>
                 <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
-                    <button onclick="openModal('nlp')" class="text-xs text-cyan-400 hover:underline font-medium">深入技術細節 &rarr;</button>
-                    <a href="https://github.com/1eadbloom/Nature-Language-Process" target="_blank" class="text-slate-400 hover:text-white"><i class="fa-brands fa-github text-base"></i></a>
+                    <a href="https://github.com/1eadbloom/Nature-Language-Process" target="_blank" onclick="event.stopPropagation()" class="text-xs text-slate-400 hover:text-white flex items-center gap-1.5"><i class="fa-brands fa-github text-base"></i> GitHub</a>
+                    <i class="fa-solid fa-arrow-right text-slate-600 text-xs"></i>
                 </div>
             </div>
 
-            <!-- Card 4: FinTech -->
-            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg" style="--card-glow: rgba(245,158,11,0.35)" data-category="fintech" data-keywords="python ntu fintech backtesting quantitative trading pandas numpy irr bitcoin blockchain technical indicators">
+            <!-- Card 4: Heart Disease Prediction (Supervised ML) -->
+            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg cursor-pointer" style="--card-glow: rgba(20,184,166,0.35)" data-category="ml-analytics" data-tech="sklearn pandas" data-keywords="scikit-learn xgboost lightgbm random forest voting classifier heart disease cdc kaggle recall roc-auc group project imbalanced classification shap" onclick="openModal('heart-disease')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal('heart-disease')">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="px-2 py-0.5 rounded bg-teal-500/10 text-teal-400 border border-teal-500/20 font-mono">Supervised ML</span>
+                        <span class="text-slate-500 font-mono">課程小組專案</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">心臟病風險預測（CDC 44 萬筆資料）</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        小組合作專案，以 Voting Classifier（XGBoost + LR + RF + LightGBM）建立心血管風險分層模型，Recall 0.67、ROC-AUC 0.89，並設計對應的保險核保應用建議。
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 pt-2">
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Scikit-learn</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Feature Selection</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Imbalanced Data</span>
+                    </div>
+                </div>
+                <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
+                    <a href="https://github.com/1eadbloom/Heart-Disease-Prediction-of-Kaggle-data" target="_blank" onclick="event.stopPropagation()" class="text-xs text-slate-400 hover:text-white flex items-center gap-1.5"><i class="fa-brands fa-github text-base"></i> GitHub</a>
+                    <i class="fa-solid fa-arrow-right text-slate-600 text-xs"></i>
+                </div>
+            </div>
+
+            <!-- Card 5: FinTech -->
+            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg cursor-pointer" style="--card-glow: rgba(245,158,11,0.35)" data-category="fintech" data-tech="pandas" data-keywords="python ntu fintech backtesting quantitative trading pandas numpy irr bitcoin blockchain technical indicators" onclick="openModal('fintech')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal('fintech')">
                 <div class="space-y-3">
                     <div class="flex items-center justify-between text-xs">
                         <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-mono">FinTech & Quant</span>
@@ -285,21 +318,21 @@
                     </div>
                 </div>
                 <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
-                    <button onclick="openModal('fintech')" class="text-xs text-cyan-400 hover:underline font-medium">深入技術細節 &rarr;</button>
-                    <a href="https://github.com/1eadbloom/Fintech-for-NTU-course" target="_blank" class="text-slate-400 hover:text-white"><i class="fa-brands fa-github text-base"></i></a>
+                    <a href="https://github.com/1eadbloom/FinTech-practices" target="_blank" onclick="event.stopPropagation()" class="text-xs text-slate-400 hover:text-white flex items-center gap-1.5"><i class="fa-brands fa-github text-base"></i> GitHub</a>
+                    <i class="fa-solid fa-arrow-right text-slate-600 text-xs"></i>
                 </div>
             </div>
 
-            <!-- Card 5: TAICA (Applied AI / Prompt Engineering) -->
-            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg" style="--card-glow: rgba(59,130,246,0.35)" data-category="ai-apps" data-keywords="prompt engineering rag vector database llm gemini chatgpt cot chain of thought taica">
+            <!-- Card 6: LLM-practices (Applied AI / Prompt Engineering) -->
+            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg cursor-pointer" style="--card-glow: rgba(59,130,246,0.35)" data-category="ai-apps" data-tech="rag chromadb" data-keywords="prompt engineering rag vector database llm gemini chatgpt cot chain of thought taica ai suite chatbot image generation" onclick="openModal('taica')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal('taica')">
                 <div class="space-y-3">
                     <div class="flex items-center justify-between text-xs">
                         <span class="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20 font-mono">Applied AI</span>
                         <span class="text-slate-500 font-mono">TAICA Course</span>
                     </div>
-                    <h3 class="text-lg font-bold text-white">TAICA 應用型 AI 實作集</h3>
+                    <h3 class="text-lg font-bold text-white">LLM 應用與 Prompt Engineering 實作集</h3>
                     <p class="text-slate-400 text-xs leading-relaxed">
-                        以 Prompt Engineering 為核心的實驗集：CoT 金融諮詢師、RAG 向量資料庫產品助理，以及 Gemini / ChatGPT 雙 LLM 對照測試。
+                        以 Prompt Engineering 為核心的實驗集：CoT 金融諮詢師、RAG 產品諮詢助理、雙 LLM 對照測試，以及 AI Suite 對話機器人與影像生成測試。
                     </p>
                     <div class="flex flex-wrap gap-1.5 pt-2">
                         <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Prompt Engineering</span>
@@ -308,13 +341,36 @@
                     </div>
                 </div>
                 <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
-                    <button onclick="openModal('taica')" class="text-xs text-cyan-400 hover:underline font-medium">深入技術細節 &rarr;</button>
-                    <a href="https://github.com/1eadbloom/TAICA_-AI-" target="_blank" class="text-slate-400 hover:text-white"><i class="fa-brands fa-github text-base"></i></a>
+                    <a href="https://github.com/1eadbloom/LLM-practices" target="_blank" onclick="event.stopPropagation()" class="text-xs text-slate-400 hover:text-white flex items-center gap-1.5"><i class="fa-brands fa-github text-base"></i> GitHub</a>
+                    <i class="fa-solid fa-arrow-right text-slate-600 text-xs"></i>
                 </div>
             </div>
 
-            <!-- Card 6: RapidMiner (Data Mining) -->
-            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg" style="--card-glow: rgba(99,102,241,0.35)" data-category="data-mining" data-keywords="rapidminer data mining feature engineering workflow cross validation titanic classification">
+            <!-- Card 7: Embeddable AI Voice Ordering -->
+            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg cursor-pointer" style="--card-glow: rgba(217,70,239,0.35)" data-category="voice-ai" data-tech="flask docker watson" data-keywords="flask ibm watson speech to text text to speech voice ordering pizza docker nltk fuzzy matching ivr" onclick="openModal('voice-ordering')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal('voice-ordering')">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="px-2 py-0.5 rounded bg-fuchsia-500/10 text-fuchsia-400 border border-fuchsia-500/20 font-mono">Voice AI / Web App</span>
+                        <span class="text-slate-500 font-mono">Flask + Docker</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">語音點餐系統（Embeddable AI Voice Ordering）</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        Flask 打造的多輪語音點餐應用，串接 IBM Watson Speech-to-Text / Text-to-Speech，以模糊字串比對從語音轉錄文字中萃取尺寸與配料，並用 Docker 封裝部署。
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 pt-2">
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Flask</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">IBM Watson STT/TTS</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Docker</span>
+                    </div>
+                </div>
+                <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
+                    <a href="https://github.com/1eadbloom/Embeddable-AI-Voice-Ordering" target="_blank" onclick="event.stopPropagation()" class="text-xs text-slate-400 hover:text-white flex items-center gap-1.5"><i class="fa-brands fa-github text-base"></i> GitHub</a>
+                    <i class="fa-solid fa-arrow-right text-slate-600 text-xs"></i>
+                </div>
+            </div>
+
+            <!-- Card 8: RapidMiner (Data Mining) -->
+            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg cursor-pointer" style="--card-glow: rgba(99,102,241,0.35)" data-category="data-mining" data-tech="rapidminer" data-keywords="rapidminer data mining feature engineering workflow cross validation titanic classification" onclick="openModal('rapidminer')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal('rapidminer')">
                 <div class="space-y-3">
                     <div class="flex items-center justify-between text-xs">
                         <span class="px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-mono">Data Mining</span>
@@ -331,32 +387,11 @@
                     </div>
                 </div>
                 <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
-                    <button onclick="openModal('rapidminer')" class="text-xs text-cyan-400 hover:underline font-medium">深入技術細節 &rarr;</button>
-                    <a href="https://github.com/1eadbloom/-_RapidMiner" target="_blank" class="text-slate-400 hover:text-white"><i class="fa-brands fa-github text-base"></i></a>
+                    <a href="https://github.com/1eadbloom/Analytics-with-RapidMiner" target="_blank" onclick="event.stopPropagation()" class="text-xs text-slate-400 hover:text-white flex items-center gap-1.5"><i class="fa-brands fa-github text-base"></i> GitHub</a>
+                    <i class="fa-solid fa-arrow-right text-slate-600 text-xs"></i>
                 </div>
             </div>
 
-        </section>
-
-        <!-- Tech Stack Section -->
-        <section id="stack" class="space-y-4 scroll-mt-20 reveal">
-            <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                <i class="fa-solid fa-layer-group text-cyan-400"></i> 技術棧
-            </h2>
-            <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-5 flex flex-wrap gap-2">
-                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">PyTorch</span>
-                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">HuggingFace Transformers</span>
-                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">LangGraph / RAG</span>
-                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">ChromaDB</span>
-                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">Ollama (本機 LLM)</span>
-                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">OpenAI Whisper</span>
-                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">Pandas / NumPy</span>
-                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">MongoDB</span>
-                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">RapidMiner</span>
-                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">Scikit-Learn</span>
-                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">OpenAI Gym / ALE</span>
-                <span class="stack-tag text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">Git / WSL2</span>
-            </div>
         </section>
 
         <!-- Interactive Playground Section -->
@@ -366,7 +401,7 @@
                     <h2 class="text-xl font-bold text-white flex items-center gap-2">
                         <i class="fa-solid fa-terminal text-cyan-400"></i> 一站式核心邏輯測試 Console
                     </h2>
-                    <p class="text-slate-400 text-xs mt-1">招募官可以直接在瀏覽器內模擬執行專案的核心演算法或資料管線（示意日誌，非即時運算）。</p>
+                    <p class="text-slate-400 text-xs mt-1">在瀏覽器內模擬執行專案的核心演算法或資料管線（示意日誌，非即時運算）。</p>
                 </div>
             </div>
 
@@ -375,11 +410,12 @@
                     <span class="text-slate-400">選擇模擬專案：</span>
                     <select id="sim-project" class="bg-slate-950 border border-slate-800 rounded px-2 py-1 text-slate-200">
                         <option value="ai-systems">Hermes Agent: text2sql Skill 驗證</option>
-                        <option value="ddpm">DLP-Lab6: Conditional DDPM Noise Step</option>
-                        <option value="dqn">DLP-Lab5: DQN Experience Replay Step</option>
+                        <option value="deep-learning">Deep-Learning: DDPM Noise Step</option>
                         <option value="nlp">NLP: LSTM 新聞分類 Inference</option>
+                        <option value="heart-disease">心臟病預測: Voting Classifier Inference</option>
                         <option value="fintech">NTU FinTech: Backtest Execution</option>
-                        <option value="taica">TAICA: RAG 產品諮詢助理 Query</option>
+                        <option value="taica">LLM-practices: RAG 產品諮詢助理 Query</option>
+                        <option value="voice-ordering">語音點餐: STT → 模糊比對 → TTS</option>
                     </select>
                     <button onclick="runSimulation()" class="bg-cyan-600 hover:bg-cyan-500 text-white px-3 py-1 rounded transition">執行模擬 (Run)</button>
                 </div>
@@ -392,7 +428,7 @@
 
         <!-- Footer -->
         <footer class="pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 font-mono">
-            <span>© 2026 徐祥智 (1eadbloom) — NCKU</span>
+            <span>© 2026 徐祥智 (1eadbloom) — NCCU</span>
             <div class="flex items-center gap-4">
                 <a href="https://github.com/1eadbloom" target="_blank" class="hover:text-cyan-400 transition"><i class="fa-brands fa-github"></i> github.com/1eadbloom</a>
             </div>
@@ -421,7 +457,7 @@
         const modalDetails = {
             'ai-systems': {
                 title: 'AI 系統實作集：Agent Skills / RAG / Memory / SDD',
-                github: 'https://github.com/1eadbloom/AI-System-Practice',
+                github: 'https://github.com/1eadbloom/AI-System-practices',
                 body: `
                     <p>整合自 GitHub Classroom 的 4 個獨立 AI 系統工程專案，每個都保留了完整的 commit 開發歷程（透過 <code>git subtree</code> 整併，未壓縮成單一 commit）。</p>
 
@@ -448,30 +484,14 @@ results = hybrid_search(query, docs, k=8)
                     </div>
                 `
             },
-            'ddpm': {
-                title: 'DLP-Lab6: Conditional DDPM 圖像生成',
-                github: 'https://github.com/1eadbloom/DLP-Lab6-Conditional-DDPM-iclevr',
+            'deep-learning': {
+                title: '深度學習三部曲：Conditional DDPM / DQN / 語意分割',
+                github: 'https://github.com/1eadbloom/Deep-Learning',
                 body: `
-                    <p><strong>專案目標：</strong>在 i-CLEVR 多標籤資料集（8 色 × 3 形狀，18,009 張影像）上訓練 Conditional DDPM，依 1–3 個物件標籤生成 64×64 影像。</p>
-                    <p><strong>踩坑與關鍵設計：</strong>初版用 multi-hot 條件向量，single-object 準確率僅 0.67，且觀察到「顏色配對錯誤」——目標為 <code>['brown sphere','red cylinder']</code>，卻生成 <code>['gray sphere','red cylinder']</code>，這是典型的 <strong>attribute binding</strong> 失效。改用「每個物件獨立成 token + U-Net 每層皆加入 Cross-Attention」後，test.json 準確率由 0.67 提升到 0.92。</p>
-                    <p><strong>最終成果：</strong>test.json 準確率 <strong class="text-purple-300">0.9167</strong>，new_test.json <strong class="text-purple-300">0.9643</strong>（以 ResNet-18 evaluator 評分，≥0.8 即滿分）。約 70M 參數，T=1000 linear β schedule，AdamW + CosineAnnealingLR，EMA decay 0.9999，推論採 DDIM 100 步。</p>
-                    <div class="relative bg-slate-950 p-3 rounded font-mono text-[11px] text-purple-300 border border-slate-800 group">
-                        <button onclick="copyCode(this)" class="absolute top-2 right-2 text-[10px] text-slate-500 hover:text-white bg-slate-800 px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition">複製</button>
-<pre># 代表性程式碼片段（Cross-Attention 條件注入）
-Query  = image_features            # (B, H*W, C)
-Key    = object_tokens             # (B, MAX_OBJS, C)
-Value  = object_tokens             # (B, MAX_OBJS, C)
-attn_out = CrossAttention(Query, Key, Value)
-# 每個空間位置自行選擇要「長得像」哪一個物件 token
-</pre>
-                    </div>
-                `
-            },
-            'dqn': {
-                title: 'DLP-Lab5: Value-Based 強化學習 (DQN 系列)',
-                github: 'https://github.com/1eadbloom/DLP-Lab5-DQN',
-                body: `
-                    <p><strong>專案目標：</strong>依難度分三個任務，逐步打造 Deep Q-Network Agent。</p>
+                    <p class="pt-1"><strong class="text-purple-300">① Conditional DDPM for Multi-Label Image Generation</strong></p>
+                    <p>在 i-CLEVR 多標籤資料集（8 色 × 3 形狀，18,009 張影像）上訓練 Conditional DDPM，依 1–3 個物件標籤生成 64×64 影像。初版用 multi-hot 條件向量，準確率僅 0.67，且出現「屬性配對」(attribute binding) 錯誤 — 顏色和形狀配對錯亂。改用「每個物件獨立 token + U-Net 每層皆加入 Cross-Attention」後，test.json 準確率提升到 <strong class="text-purple-300">0.9167</strong>，new_test.json 達 <strong class="text-purple-300">0.9643</strong>（ResNet-18 evaluator 評分，≥0.8 即滿分）。</p>
+
+                    <p class="pt-1"><strong class="text-purple-300">② Value-Based Reinforcement Learning（DQN 系列）</strong></p>
                     <table class="w-full text-[11px] border-collapse">
                         <thead><tr class="text-slate-500 border-b border-slate-800">
                             <th class="text-left py-1 pr-2">任務</th><th class="text-left py-1 pr-2">環境</th><th class="text-left py-1 pr-2">方法</th><th class="text-left py-1">結果</th>
@@ -482,17 +502,56 @@ attn_out = CrossAttention(Query, Key, Value)
                             <tr><td class="py-1 pr-2">Task 3</td><td class="py-1 pr-2">ALE/Pong-v5</td><td class="py-1 pr-2">Double DQN + PER + Multi-step</td><td class="py-1 text-emerald-300">Best ≈ +1.05</td></tr>
                         </tbody>
                     </table>
-                    <p><strong>關鍵技術：</strong>Task 3 疊加了 <strong>Double DQN</strong>（拆分動作選擇與評估）、<strong>Prioritized Experience Replay</strong>（α=0.6，β 由 0.4 退火至 1.0）與 <strong>3-step Multi-step Return</strong>，讓 Agent 在稀疏獎勵的 Pong 環境中，從平均 14.2 分逆轉到轉正。</p>
-                    <div class="relative bg-slate-950 p-3 rounded font-mono text-[11px] text-emerald-300 border border-slate-800 group">
+
+                    <p class="pt-1"><strong class="text-purple-300">③ Binary Semantic Segmentation（Oxford-IIIT Pet）</strong></p>
+                    <p>UNet 與 ResNet34-UNet 兩種架構，對寵物影像做像素級前景/背景分割。結果：UNet Val Dice <strong class="text-purple-300">0.8908</strong>，ResNet34-UNet Val Dice <strong class="text-purple-300">0.9126</strong>（Baseline 門檻 0.85）。值得一提的除錯過程：初版分數低於門檻（Dice < 0.80），排查後發現問題**不是架構選擇，而是資料增強邏輯的實作 bug** — <code>_augment()</code> 函式在 RandomResizedCrop 分支裡有一個提前 <code>return</code>，導致 color jitter 在近半數訓練樣本上完全沒有執行，修正後分數才回到正常水準。</p>
+
+                    <div class="relative bg-slate-950 p-3 rounded font-mono text-[11px] text-purple-300 border border-slate-800 group">
                         <button onclick="copyCode(this)" class="absolute top-2 right-2 text-[10px] text-slate-500 hover:text-white bg-slate-800 px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition">複製</button>
-<pre># Prioritized Replay 抽樣（節錄自 dqn.py）
-class PrioritizedReplayBuffer:
-    def sample(self, batch_size):
-        # 依 TD-error 轉換出的優先度做加權抽樣
-        ...
-    def update_priorities(self, indices, errors):
-        # 每次更新後回寫新的優先度
-        ...
+<pre># 修正前：色彩增強在裁切分支被跳過
+def _augment(self, image, mask):
+    if use_random_resized_crop:
+        image, mask = self._resized_crop(image, mask)
+        return image, mask     # ← color jitter 永遠執行不到
+    image = self._color_jitter(image)
+    ...
+</pre>
+                    </div>
+                `
+            },
+            'heart-disease': {
+                title: '心臟病風險預測（CDC 44 萬筆資料，課程小組專案）',
+                github: 'https://github.com/1eadbloom/Heart-Disease-Prediction-of-Kaggle-data',
+                body: `
+                    <p><strong>專案目標：</strong>以美國 CDC 2022 年健康調查資料（445,132 筆）建立心血管疾病風險分層模型，應用情境是保險核保：以模型分層取代人工逐筆審查，並依可介入行為特徵設計差異化健康獎勵機制。</p>
+                    <table class="w-full text-[11px] border-collapse">
+                        <thead><tr class="text-slate-500 border-b border-slate-800">
+                            <th class="text-left py-1 pr-2">模型</th><th class="text-left py-1 pr-2">Recall</th><th class="text-left py-1 pr-2">Precision</th><th class="text-left py-1">ROC-AUC</th>
+                        </tr></thead>
+                        <tbody>
+                            <tr class="border-b border-slate-800/50"><td class="py-1 pr-2">Logistic Regression</td><td class="py-1 pr-2">0.77</td><td class="py-1 pr-2">0.21</td><td class="py-1">0.89</td></tr>
+                            <tr class="border-b border-slate-800/50"><td class="py-1 pr-2">Random Forest</td><td class="py-1 pr-2">0.55</td><td class="py-1 pr-2">0.40</td><td class="py-1">0.81</td></tr>
+                            <tr class="border-b border-slate-800/50"><td class="py-1 pr-2">XGBoost</td><td class="py-1 pr-2">0.67</td><td class="py-1 pr-2">0.30</td><td class="py-1">0.89</td></tr>
+                            <tr><td class="py-1 pr-2"><strong class="text-teal-300">Voting Classifier（採用）</strong></td><td class="py-1 pr-2 text-teal-300">0.67</td><td class="py-1 pr-2 text-teal-300">0.304</td><td class="py-1 text-teal-300">0.89</td></tr>
+                        </tbody>
+                    </table>
+                    <p><strong>關鍵決策：</strong>資料類別極度不平衡（正負樣本比約 1:16.6），比較了 Random Over/Under-Sampling、SMOTE、Class Weight 四種處理方式，最終採用 Class Weight（輕量、Recall 表現最好）。因保險場景中漏判高風險族群（False Negative）代價遠高於誤報，指標選擇以 <strong>Recall 為主要優化目標</strong>而非 Accuracy 或 F1。特徵篩選比較了 Group Lasso（6 特徵，Recall≈0.5）與 Feature Importance + SHAP 聯集（29 特徵，Recall 0.67），最終採用後者。</p>
+                `
+            },
+            'voice-ordering': {
+                title: '語音點餐系統 Embeddable AI Voice Ordering',
+                github: 'https://github.com/1eadbloom/Embeddable-AI-Voice-Ordering',
+                body: `
+                    <p><strong>專案目標：</strong>以 Flask 打造多輪對話式的披薩語音點餐系統，模擬真實 IVR（互動式語音應答）情境：使用者依序用語音回答地址、餐點內容，系統逐步確認並複誦。</p>
+                    <p><strong>技術管線：</strong>瀏覽器錄音 → 上傳音檔 → IBM Watson Speech-to-Text 轉錄成文字 → NLTK 停用詞過濾清理雜訊詞（如 "gimme"、"lemme"、"gonna" 等口語填充詞）→ 以 <code>difflib.SequenceMatcher</code> 模糊字串比對，從轉錄文字中比對出尺寸（Giant / Large / Medium）與配料（Pepperoni、Bacon 等 8 種）→ IBM Watson Text-to-Speech 生成語音回覆確認訂單。</p>
+                    <p><strong>設計考量：</strong>語音轉文字容易有辨識誤差（例如把 "pepperoni" 聽成拼寫相近但不完全一致的詞），因此沒有用精確字串比對，而是用相似度門檻（ratio > 0.6）做容錯比對，讓系統對語音辨識的雜訊有一定的容忍度。整個應用用 Dockerfile 封裝，方便部署到任何容器環境。</p>
+                    <div class="relative bg-slate-950 p-3 rounded font-mono text-[11px] text-fuchsia-300 border border-slate-800 group">
+                        <button onclick="copyCode(this)" class="absolute top-2 right-2 text-[10px] text-slate-500 hover:text-white bg-slate-800 px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition">複製</button>
+<pre># 模糊比對萃取訂單內容（helperFunctions.py）
+for word in transcribed_text.split():
+    for topping in pizza_toppings:
+        if SequenceMatcher(None, word, topping).ratio() > 0.6:
+            order_topping.append(topping)   # 容錯匹配語音辨識誤差
 </pre>
                     </div>
                 `
@@ -516,7 +575,7 @@ class PrioritizedReplayBuffer:
             },
             'fintech': {
                 title: 'NTU 金融科技四份作業',
-                github: 'https://github.com/1eadbloom/Fintech-for-NTU-course',
+                github: 'https://github.com/1eadbloom/FinTech-practices',
                 body: `
                     <p><strong>專案目標：</strong>國立臺灣大學金融科技課程作業，由淺入深練習量化金融的核心計算與策略設計。</p>
                     <ul class="space-y-1.5 list-disc list-inside">
@@ -538,7 +597,7 @@ sharpe_ratio = (df['strategy_returns'].mean()
             },
             'taica': {
                 title: 'TAICA 應用型 AI / Prompt Engineering 實作集',
-                github: 'https://github.com/1eadbloom/TAICA_-AI-',
+                github: 'https://github.com/1eadbloom/LLM-practices',
                 body: `
                     <p><strong>專案目標：</strong>台灣人工智慧學校課程中，以 Prompt Engineering 為核心的一系列應用型 AI 實驗，重點在「如何設計提示詞與架構讓 LLM 穩定產出可用結果」。</p>
                     <ul class="space-y-1.5 list-disc list-inside">
@@ -552,7 +611,7 @@ sharpe_ratio = (df['strategy_returns'].mean()
             },
             'rapidminer': {
                 title: 'RapidMiner 資料探勘 Workflow',
-                github: 'https://github.com/1eadbloom/-_RapidMiner',
+                github: 'https://github.com/1eadbloom/Analytics-with-RapidMiner',
                 body: `
                     <p><strong>專案目標：</strong>運用 RapidMiner 視覺化 Workflow 完成三份資料探勘作業，練習缺失值處理、特徵篩選與模型比較的完整流程。</p>
                     <ul class="space-y-1.5 list-disc list-inside">
@@ -567,7 +626,7 @@ sharpe_ratio = (df['strategy_returns'].mean()
         // ---------- Boot terminal (signature hero element) ----------
         const bootLines = [
             { p: '$ whoami', c: 'text-slate-300' },
-            { p: '徐祥智 · NCKU · AI/ML 工程實作與求職作品集', c: 'text-cyan-300' },
+            { p: '徐祥智 · NCCU · AI/ML 工程實作與其他作品集', c: 'text-cyan-300' },
             { p: '$ ls ./skills', c: 'text-slate-300' },
             { p: 'PyTorch  Diffusion  RL  NLP  RAG  Quant-Finance', c: 'text-cyan-300' },
             { p: '$ cat ./status', c: 'text-slate-300' },
@@ -602,24 +661,36 @@ sharpe_ratio = (df['strategy_returns'].mean()
         }
 
         // ---------- Filtering & search ----------
-        function filterProjects(cat) {
-            const cards = document.querySelectorAll('.project-card');
-            const buttons = document.querySelectorAll('.filter-btn');
+        function setAllButtonActive(active) {
+            const btn = document.getElementById('all-projects-btn');
+            btn.className = active
+                ? "px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-600 text-white transition"
+                : "px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+        }
 
-            buttons.forEach(btn => {
-                if (btn.dataset.cat === cat) {
-                    btn.className = "filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-600 text-white transition";
-                } else {
-                    btn.className = "filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
-                }
+        function showAllProjects() {
+            document.getElementById('topic-select').value = '';
+            document.getElementById('tech-select').value = '';
+            document.querySelectorAll('.project-card').forEach(card => card.classList.remove('hidden'));
+            setAllButtonActive(true);
+        }
+
+        function filterByTopic(value) {
+            document.getElementById('tech-select').value = '';
+            if (!value) { showAllProjects(); return; }
+            setAllButtonActive(false);
+            document.querySelectorAll('.project-card').forEach(card => {
+                card.classList.toggle('hidden', card.dataset.category !== value);
             });
+        }
 
-            cards.forEach(card => {
-                if (cat === 'all' || card.dataset.category === cat) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
+        function filterByTech(value) {
+            document.getElementById('topic-select').value = '';
+            if (!value) { showAllProjects(); return; }
+            setAllButtonActive(false);
+            document.querySelectorAll('.project-card').forEach(card => {
+                const techs = (card.dataset.tech || '').split(' ');
+                card.classList.toggle('hidden', !techs.includes(value));
             });
         }
 
@@ -670,11 +741,12 @@ sharpe_ratio = (df['strategy_returns'].mean()
             const output = document.getElementById('sim-output');
             const logs = {
                 'ai-systems': "[INFO] hermes chat --toolsets skills -q '/text2sql-1eadbloom {...}'\n[INFO] Generated SQL compared against gold_sql via bag-equality\n[RESULT] dev_set/basic: 18/20 queries passed\n[INFO] Running Pairwise round: code-author vs reference-bug-hunter-aggressive\n[RESULT] Final aggregated score: 91.61 / 100",
-                ddpm: "[INFO] Initializing Conditional DDPM Model...\n[INFO] Noise Timesteps T=1000, Beta schedule: linear\n[STEP 001] Object tokens: ['red sphere', 'cyan cylinder']\n[STEP 250] Cross-Attention denoising loss: 0.0421\n[STEP 750] Cross-Attention denoising loss: 0.0093\n[EVAL] ResNet-18 evaluator accuracy: 0.9167 (test.json)\n[SUCCESS] Image synthesized via DDIM (100 steps) in 1.24s.",
-                dqn: "[INFO] Loading Gym Environment: ALE/Pong-v5\n[INFO] Prioritized Replay Buffer capacity: 100,000 (alpha=0.6)\n[EPISODE 50]  Avg Reward: -18.4, Beta: 0.42\n[EPISODE 400] Avg Reward: -2.1,  Beta: 0.71\n[EPISODE 900] Avg Reward: +1.05 (Double DQN + PER + 3-step), Beta: 1.00",
+                'deep-learning': "[INFO] Initializing Conditional DDPM Model...\n[INFO] Noise Timesteps T=1000, Beta schedule: linear\n[STEP 250] Cross-Attention denoising loss: 0.0421\n[STEP 750] Cross-Attention denoising loss: 0.0093\n[EVAL] ResNet-18 evaluator accuracy: 0.9167 (test.json)\n[INFO] Switching module: ResNet34-UNet segmentation...\n[EVAL] Validation Dice Score: 0.9126\n[SUCCESS] Image synthesized via DDIM (100 steps) in 1.24s.",
                 nlp: "[INFO] Loading AG News dataset...\n[INFO] Model: Bidirectional 2-layer LSTM (PyTorch)\n[BATCH 1] input: \"Fed raises interest rates amid inflation concerns\"\n[BATCH 1] predicted_class: Business (0.91 confidence)\n[EVAL] Test accuracy: 90.4%\n[SUCCESS] Inference completed in 0.08s/sample.",
+                'heart-disease': "[INFO] Loading CDC 2022 BRFSS dataset (445,132 rows)...\n[INFO] Applying class_weight='balanced' (imbalance ratio ≈ 1:16.6)\n[INFO] Voting Classifier: LR + RF + XGBoost + LightGBM (soft voting)\n[EVAL] Recall: 0.67 | Precision: 0.304 | ROC-AUC: 0.89\n[SUCCESS] Risk tier assigned: MODERATE-HIGH for sample input.",
                 fintech: "[INFO] Fetching historical BTC & equity price ticks...\n[INFO] Executing Technical-Indicator Crossover Strategy (HW02)\n[RESULT] Total Trades: 142 | Win Rate: 62.4%\n[METRIC] Annualized Return: 18.5% | Sharpe Ratio: 1.84 | Max Drawdown: -8.2%",
                 taica: "[INFO] Loading product FAQ corpus into vector store...\n[INFO] Query: \"這個方案支援跨境退貨嗎？\"\n[RETRIEVE] Top-3 chunks retrieved (cosine sim > 0.82)\n[GENERATE] Grounded answer synthesized with citation to source chunk #2\n[SUCCESS] RAG round-trip latency: 640ms.",
+                'voice-ordering': "[INFO] POST /upload -> audio.wav received\n[INFO] IBM Watson STT transcription: \"gimme a large pepperoni and bacon pizza\"\n[INFO] NLTK stopword filtering removed filler words\n[MATCH] size='Large' (ratio=1.00), toppings=['pepperoni','bacon'] (ratio>0.6)\n[INFO] IBM Watson TTS generating confirmation audio...\n[SUCCESS] Order confirmed, response audio: output_text.wav",
             };
             output.innerText = logs[proj] || '';
         }
