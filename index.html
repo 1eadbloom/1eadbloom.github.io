@@ -141,7 +141,7 @@
         <!-- Stats strip -->
         <section class="grid grid-cols-2 sm:grid-cols-4 gap-3 reveal">
             <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-center">
-                <div class="text-2xl font-extrabold text-cyan-400 font-mono">9</div>
+                <div class="text-2xl font-extrabold text-cyan-400 font-mono">10</div>
                 <div class="text-[11px] text-slate-500 mt-1">已整理專案</div>
             </div>
             <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-center">
@@ -161,7 +161,7 @@
         <!-- Filter & Search Bar -->
         <section id="projects" class="space-y-4 scroll-mt-20">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-center flex-wrap gap-3 bg-slate-900/60 p-4 border border-slate-800 rounded-xl">
-                <button onclick="showAllProjects()" id="all-projects-btn" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-600 text-white transition">全部專案 (9)</button>
+                <button onclick="showAllProjects()" id="all-projects-btn" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-600 text-white transition">全部專案 (10)</button>
 
                 <select id="topic-select" onchange="filterByTopic(this.value)" class="bg-slate-800 border border-slate-700 text-slate-300 text-xs rounded-lg px-3 py-1.5 text-center focus:outline-none focus:border-cyan-500 hover:bg-slate-700 transition" style="text-align-last: center;">
                     <option value="" disabled selected hidden>依主題區分</option>
@@ -180,6 +180,7 @@
                     <option value="pytorch">PyTorch</option>
                     <option value="huggingface">HuggingFace Transformers</option>
                     <option value="rag">LangGraph / RAG</option>
+                    <option value="mcp">MCP (Model Context Protocol)</option>
                     <option value="chromadb">ChromaDB</option>
                     <option value="bm25">BM25 / Hybrid Retrieval</option>
                     <option value="ollama">Ollama（本機 LLM）</option>
@@ -205,6 +206,29 @@
 
         <!-- Projects Grid -->
         <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
+
+            <!-- Card -1: MCP Dev Toolkit (derived from Hermes Agent) -->
+            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg cursor-pointer" style="--card-glow: rgba(249,115,22,0.35)" data-category="ai-systems" data-tech="mcp" data-keywords="mcp model context protocol server sdk hermes agent dev toolkit validate sql probe function json schema code quality opencode lm studio claude code" onclick="openModal('mcp-toolkit')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal('mcp-toolkit')">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 font-mono">AI Systems / Agent</span>
+                        <span class="text-slate-500 font-mono">MCP Server</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">MCP Dev Toolkit</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        從 Hermes Agent 專案的四個確定性驗證核心，抽取重製成一組標準 MCP 工具，讓任何 MCP client（Claude Code、opencode、LM Studio）都能在生成程式碼/SQL/JSON 後主動呼叫自我檢查。
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 pt-2">
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">MCP Server</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Deterministic Tooling</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">4 Validators</span>
+                    </div>
+                </div>
+                <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
+                    <a href="https://github.com/1eadbloom/MCP-dev-toolkit" target="_blank" onclick="event.stopPropagation()" class="text-xs text-slate-400 hover:text-white flex items-center gap-1.5"><i class="fa-brands fa-github text-base"></i> GitHub</a>
+                    <i class="fa-solid fa-arrow-right text-slate-600 text-xs"></i>
+                </div>
+            </div>
 
             <!-- Card 0: Agentic AI ESG Report Analytics (Multi-Agent + Spec-Driven Dev) -->
             <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg cursor-pointer" style="--card-glow: rgba(249,115,22,0.35)" data-category="ai-systems" data-tech="rag chromadb ollama" data-keywords="langgraph multi-agent esg rag chromadb ollama citation spec-driven development spec-kit sustainability report gri kpi" onclick="openModal('esg-agent')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal('esg-agent')">
@@ -430,6 +454,7 @@
                 <div class="flex flex-wrap items-center gap-2">
                     <span class="text-slate-400">選擇模擬專案：</span>
                     <select id="sim-project" class="bg-slate-950 border border-slate-800 rounded px-2 py-1 text-slate-200">
+                        <option value="mcp-toolkit">MCP Toolkit: probe_function 邊界測試</option>
                         <option value="esg-agent">ESG Multi-Agent: 引用來源歸因</option>
                         <option value="ai-systems">Hermes Agent: text2sql Skill 驗證</option>
                         <option value="deep-learning">Deep-Learning: DDPM Noise Step</option>
@@ -477,6 +502,48 @@
     <script>
         // ---------- Project Detail Modal Data ----------
         const modalDetails = {
+            'mcp-toolkit': {
+                title: 'MCP Dev Toolkit — 確定性驗證工具的 MCP 化',
+                github: 'https://github.com/1eadbloom/MCP-dev-toolkit',
+                body: `
+                    <p><strong>專案動機：</strong>Hermes Agent 期末專題（91.61/100）的核心設計理念是「確定性外殼包裹機率性核心」——LLM 負責推理生成，但周圍必須有不依賴 LLM 的確定性邏輯把關，避免盲目信任模型輸出。這個工具箱把原本鎖死在課程自動評分系統裡的那套驗證邏輯抽取出來，重新包裝成標準 <strong>MCP（Model Context Protocol）</strong> 工具，讓任何支援 MCP 的 client（Claude Code、Claude Desktop、opencode、LM Studio）都能直接呼叫。</p>
+
+                    <p class="pt-1"><strong class="text-orange-300">提供的四個工具</strong></p>
+                    <table class="w-full text-[11px] border-collapse">
+                        <thead><tr class="text-slate-500 border-b border-slate-800">
+                            <th class="text-left py-1 pr-2">工具</th><th class="text-left py-1 pr-2">對應技能</th><th class="text-left py-1">功能</th>
+                        </tr></thead>
+                        <tbody>
+                            <tr class="border-b border-slate-800/50"><td class="py-1 pr-2"><code>validate_sql</code></td><td class="py-1 pr-2">text2sql</td><td class="py-1">語法與欄位/表格檢查，僅允許 SELECT</td></tr>
+                            <tr class="border-b border-slate-800/50"><td class="py-1 pr-2"><code>probe_function</code></td><td class="py-1 pr-2">bug-hunter</td><td class="py-1">邊界值測試找 crash 與隱性邏輯錯誤</td></tr>
+                            <tr class="border-b border-slate-800/50"><td class="py-1 pr-2"><code>validate_json_schema</code></td><td class="py-1 pr-2">open-jsonvalidate</td><td class="py-1">JSON Schema (draft-07 子集) 結構化驗證</td></tr>
+                            <tr><td class="py-1 pr-2"><code>check_code_quality</code></td><td class="py-1 pr-2">code-author</td><td class="py-1">樣本測試 + SLOC 上限 + 禁用 import 檢查</td></tr>
+                        </tbody>
+                    </table>
+                    <p>四個工具的核心邏輯完全獨立於 LLM，全部可離線、確定性地運作。</p>
+
+                    <p class="pt-1"><strong class="text-orange-300">真實案例：一個「看似無害」函式的邊界測試</strong></p>
+                    <p>用 <code>probe_function</code> 測試 <code>def double(x): return x * 2</code> 時，9 個邊界輸入（空字串、負數、超大整數等）全部正常，但傳入 <code>None</code> 觸發真實的 <code>TypeError</code>，並精準定位到第 2 行。這是實際測試中意外發現的結果，並非刻意安排——說明即使是看起來毫無問題的簡單函式，通用邊界值探測仍能抓出未防呆的輸入情境。</p>
+
+                    <p class="pt-1"><strong class="text-orange-300">開發過程中的意外：SDK 中途重大改版</strong></p>
+                    <p>本專案使用 MCP Python SDK v2（<code>mcp&gt;=2.0.0,&lt;3.0.0</code>）。v2 剛好在此專案開發期間發布，把 v1 的 <code>FastMCP</code> 類別重新命名為 <code>MCPServer</code>（模組路徑由 <code>mcp.server.fastmcp</code> 改為 <code>mcp.server.mcpserver</code>），開發過程中實際遇到並完成了這次 migration。</p>
+
+                    <p class="pt-1"><strong class="text-orange-300">誠實列出的已知限制</strong></p>
+                    <p><code>probe_function</code> 的逾時機制用 <code>signal.SIGALRM</code>，僅在 POSIX 系統生效——在 Windows 上，若候選函式包含無限迴圈，探測會直接卡住而非優雅地回傳 timeout。<code>check_code_quality</code> 的 SLOC 計算優先用 <code>radon raw</code>，未安裝時退回精確度較低的簡易計數。四個工具皆透過 <code>exec()</code> 執行使用者提供的程式碼字串，設計上假設呼叫端為可信任來源，若要暴露給不受信任輸入需額外加沙箱隔離。</p>
+
+                    <div class="relative bg-slate-950 p-3 rounded font-mono text-[11px] text-orange-300 border border-slate-800 group">
+                        <button onclick="copyCode(this)" class="absolute top-2 right-2 text-[10px] text-slate-500 hover:text-white bg-slate-800 px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition">複製</button>
+<pre># MCP 工具宣告（mcp_server.py 節錄）
+@mcp.tool()
+def probe_function(code: str, entry_function: str,
+                    oracle: str | None = None) -> dict:
+    # 對函式跑一組邊界值測試（空容器/零/負數/None/超大數值）
+    # 偵測 crash、timeout，並可搭配 oracle 抓「不 crash 但答案錯」
+    ...
+</pre>
+                    </div>
+                `
+            },
             'esg-agent': {
                 title: 'ESG 報告評估與改進多代理協作系統',
                 github: 'https://github.com/1eadbloom/Agentic-AI_ESG-report-analytics',
@@ -800,6 +867,7 @@ sharpe_ratio = (df['strategy_returns'].mean()
             const proj = document.getElementById('sim-project').value;
             const output = document.getElementById('sim-output');
             const logs = {
+                'mcp-toolkit': "[INFO] MCP tool call: probe_function(code='def double(x): return x * 2', entry_function='double')\n[PROBE] Testing 9 boundary inputs: '', -1, 0, 1e308, None, ...\n[PASS] 8/9 inputs handled without error\n[CRASH] input=None -> TypeError: unsupported operand type(s) for *: 'NoneType' and 'int'\n[RESULT] bad_line: 2, outcome: 'crash'",
                 'esg-agent': "[INFO] coordinator_agent.py --file 中信證券_2024.pdf --company 中信證券\n[SEARCH] Chunked & indexed into ChromaDB (scope: 中信證券 · 2024 · report)\n[INTERPRET] E/S/G sections classified, KPIs extracted\n[CITATION] select_sources(): embedding similarity >= 0.35, top_k=3\n[RESULT] 12 highlights, 9 weaknesses cited; 1 fallback to unattributed\n[SUCCESS] Report written to outputs/中信證券_ESG分析報告.md",
                 'ai-systems': "[INFO] hermes chat --toolsets skills -q '/text2sql-1eadbloom {...}'\n[INFO] Generated SQL compared against gold_sql via bag-equality\n[RESULT] dev_set/basic: 18/20 queries passed\n[INFO] Running Pairwise round: code-author vs reference-bug-hunter-aggressive\n[RESULT] Final aggregated score: 91.61 / 100",
                 'deep-learning': "[INFO] Initializing Conditional DDPM Model...\n[INFO] Noise Timesteps T=1000, Beta schedule: linear\n[STEP 250] Cross-Attention denoising loss: 0.0421\n[STEP 750] Cross-Attention denoising loss: 0.0093\n[EVAL] ResNet-18 evaluator accuracy: 0.9167 (test.json)\n[INFO] Switching module: ResNet34-UNet segmentation...\n[EVAL] Validation Dice Score: 0.9126\n[SUCCESS] Image synthesized via DDIM (100 steps) in 1.24s.",
