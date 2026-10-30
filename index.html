@@ -141,7 +141,7 @@
         <!-- Stats strip -->
         <section class="grid grid-cols-2 sm:grid-cols-4 gap-3 reveal">
             <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-center">
-                <div class="text-2xl font-extrabold text-cyan-400 font-mono">10</div>
+                <div class="text-2xl font-extrabold text-cyan-400 font-mono">11</div>
                 <div class="text-[11px] text-slate-500 mt-1">已整理專案</div>
             </div>
             <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-center">
@@ -161,7 +161,7 @@
         <!-- Filter & Search Bar -->
         <section id="projects" class="space-y-4 scroll-mt-20">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-center flex-wrap gap-3 bg-slate-900/60 p-4 border border-slate-800 rounded-xl">
-                <button onclick="showAllProjects()" id="all-projects-btn" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-600 text-white transition">全部專案 (10)</button>
+                <button onclick="showAllProjects()" id="all-projects-btn" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-600 text-white transition">全部專案 (11)</button>
 
                 <select id="topic-select" onchange="filterByTopic(this.value)" class="bg-slate-800 border border-slate-700 text-slate-300 text-xs rounded-lg px-3 py-1.5 text-center focus:outline-none focus:border-cyan-500 hover:bg-slate-700 transition" style="text-align-last: center;">
                     <option value="" disabled selected hidden>依主題區分</option>
@@ -173,6 +173,7 @@
                     <option value="ai-apps">應用型 AI / Prompt</option>
                     <option value="voice-ai">語音互動應用</option>
                     <option value="data-mining">資料探勘</option>
+                    <option value="cybersecurity">AI 資安</option>
                 </select>
 
                 <select id="tech-select" onchange="filterByTech(this.value)" class="bg-slate-800 border border-slate-700 text-slate-300 text-xs rounded-lg px-3 py-1.5 text-center focus:outline-none focus:border-cyan-500 hover:bg-slate-700 transition" style="text-align-last: center;">
@@ -181,6 +182,7 @@
                     <option value="huggingface">HuggingFace Transformers</option>
                     <option value="rag">LangGraph / RAG</option>
                     <option value="mcp">MCP (Model Context Protocol)</option>
+                    <option value="langfuse">Langfuse (Tracing)</option>
                     <option value="chromadb">ChromaDB</option>
                     <option value="bm25">BM25 / Hybrid Retrieval</option>
                     <option value="ollama">Ollama（本機 LLM）</option>
@@ -188,6 +190,7 @@
                     <option value="pandas">Pandas / NumPy</option>
                     <option value="mongodb">MongoDB</option>
                     <option value="sklearn">Scikit-Learn</option>
+                    <option value="xgboost">XGBoost</option>
                     <option value="gym">OpenAI Gym / ALE</option>
                     <option value="flask">Flask</option>
                     <option value="docker">Docker</option>
@@ -231,7 +234,7 @@
             </div>
 
             <!-- Card 0: Agentic AI ESG Report Analytics (Multi-Agent + Spec-Driven Dev) -->
-            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg cursor-pointer" style="--card-glow: rgba(249,115,22,0.35)" data-category="ai-systems" data-tech="rag chromadb ollama" data-keywords="langgraph multi-agent esg rag chromadb ollama citation spec-driven development spec-kit sustainability report gri kpi" onclick="openModal('esg-agent')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal('esg-agent')">
+            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg cursor-pointer" style="--card-glow: rgba(249,115,22,0.35)" data-category="ai-systems" data-tech="rag chromadb ollama langfuse" data-keywords="langgraph multi-agent esg rag chromadb ollama langfuse tracing citation kpi verification regression tests pymupdf spec-driven development spec-kit sustainability report gri" onclick="openModal('esg-agent')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal('esg-agent')">
                 <div class="space-y-3">
                     <div class="flex items-center justify-between text-xs">
                         <span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 font-mono">AI Systems / Agent</span>
@@ -239,12 +242,12 @@
                     </div>
                     <h3 class="text-lg font-bold text-white">ESG 報告評估多代理協作系統</h3>
                     <p class="text-slate-400 text-xs leading-relaxed">
-                        四個 LangGraph Agent 協作，對企業 ESG 永續報告書做自動化 E/S/G 診斷與改善建議，並用確定性方法為每一項結論附上可追溯的原始文件引用。以真實上市公司報告書完整驗證過。
+                        以 LangGraph 串接搜尋、解讀、策略與 QC 節點，分析企業永續報告書 PDF，產出 E/S/G 診斷與改善策略；每項結論附原文頁碼引用，KPI 經確定性檢查才保留。全程本機 LLM，以 118 項離線測試與 14 項報告自動檢查把關。
                     </p>
                     <div class="flex flex-wrap gap-1.5 pt-2">
-                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">LangGraph 4-Agent</span>
-                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Citation Tracking</span>
-                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Spec-Driven Dev</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">LangGraph + QC Retry</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">KPI 確定性檢查</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Langfuse Tracing</span>
                     </div>
                 </div>
                 <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
@@ -272,6 +275,29 @@
                 </div>
                 <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
                     <a href="https://github.com/1eadbloom/AI-System-practices" target="_blank" onclick="event.stopPropagation()" class="text-xs text-slate-400 hover:text-white flex items-center gap-1.5"><i class="fa-brands fa-github text-base"></i> GitHub</a>
+                    <i class="fa-solid fa-arrow-right text-slate-600 text-xs"></i>
+                </div>
+            </div>
+
+            <!-- Card: Phishing & Social Engineering Detection -->
+            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg cursor-pointer" style="--card-glow: rgba(14,165,233,0.35)" data-category="cybersecurity" data-tech="pytorch huggingface xgboost sklearn ollama" data-keywords="phishing social engineering detection roberta fine-tuning xgboost url features stacking ensemble qwen3 ollama cybersecurity f1 auc blackwell rtx 5080" onclick="openModal('phishing')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal('phishing')">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="px-2 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20 font-mono">AI Security</span>
+                        <span class="text-slate-500 font-mono">課程小組專案</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">釣魚與社交工程偵測（微調 RoBERTa）</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        70,514 筆資料上微調 RoBERTa 文字分類器，結合 XGBoost URL 特徵並以 Stacking 融合，F1 0.955、AUC 0.9948；邊界案例交給本機 Qwen3 產生可讀的判斷解釋。
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 pt-2">
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">RoBERTa Fine-tuning</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Stacking Ensemble</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Qwen3 Explainability</span>
+                    </div>
+                </div>
+                <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
+                    <a href="https://github.com/1eadbloom/Phishing-Detection" target="_blank" onclick="event.stopPropagation()" class="text-xs text-slate-400 hover:text-white flex items-center gap-1.5"><i class="fa-brands fa-github text-base"></i> GitHub</a>
                     <i class="fa-solid fa-arrow-right text-slate-600 text-xs"></i>
                 </div>
             </div>
@@ -323,7 +349,7 @@
             </div>
 
             <!-- Card 4: Heart Disease Prediction (Supervised ML) -->
-            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg cursor-pointer" style="--card-glow: rgba(20,184,166,0.35)" data-category="ml-analytics" data-tech="sklearn pandas" data-keywords="scikit-learn xgboost lightgbm random forest voting classifier heart disease cdc kaggle recall roc-auc group project imbalanced classification shap" onclick="openModal('heart-disease')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal('heart-disease')">
+            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg cursor-pointer" style="--card-glow: rgba(20,184,166,0.35)" data-category="ml-analytics" data-tech="sklearn xgboost pandas" data-keywords="scikit-learn xgboost lightgbm random forest voting classifier heart disease cdc kaggle recall roc-auc group project imbalanced classification shap" onclick="openModal('heart-disease')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal('heart-disease')">
                 <div class="space-y-3">
                     <div class="flex items-center justify-between text-xs">
                         <span class="px-2 py-0.5 rounded bg-teal-500/10 text-teal-400 border border-teal-500/20 font-mono">Supervised ML</span>
@@ -454,8 +480,9 @@
                 <div class="flex flex-wrap items-center gap-2">
                     <span class="text-slate-400">選擇模擬專案：</span>
                     <select id="sim-project" class="bg-slate-950 border border-slate-800 rounded px-2 py-1 text-slate-200">
+                        <option value="phishing">釣魚偵測: Stacking + Qwen3 邊界解釋</option>
                         <option value="mcp-toolkit">MCP Toolkit: probe_function 邊界測試</option>
-                        <option value="esg-agent">ESG Multi-Agent: 引用來源歸因</option>
+                        <option value="esg-agent">ESG Multi-Agent: KPI 檢查與 QC 流程</option>
                         <option value="ai-systems">Hermes Agent: text2sql Skill 驗證</option>
                         <option value="deep-learning">Deep-Learning: DDPM Noise Step</option>
                         <option value="nlp">NLP: LSTM 新聞分類 Inference</option>
@@ -545,39 +572,131 @@ def probe_function(code: str, entry_function: str,
                 `
             },
             'esg-agent': {
-                title: 'ESG 報告評估與改進多代理協作系統',
+                title: 'ESG 報告評估多代理協作系統（LangGraph + 品質把關）',
                 github: 'https://github.com/1eadbloom/Agentic-AI_ESG-report-analytics',
                 body: `
-                    <p><strong>專案背景：</strong>發想自 AgenticAI 課程期末專題設計的四代理架構；後續實際的系統實作、功能擴充（含引用來源追蹤）與全部程式碼皆獨立完成。原本 repo 只 push 過一次課程設計報告（沒有開發歷程），後來用真正的實作內容 force-push 覆蓋，並拆成按階段的 commit（citation 模組 → agent 串接 → 測試 → spec-kit 文件 → 編碼修復 → 相關性選取修復 → 真實案例與 README）。</p>
+                    <p><strong>專案背景：</strong>發想自 AgenticAI 課程期末專題設計的四代理架構；實際的系統實作與後續擴充為持續開發的個人專案。重點不只是「讓流程跑起來」，而是<strong>如何知道輸出是對的</strong>：README 後半完整記錄了用 trace、原始 PDF 與測試逐項核對出來的問題與修正。全程使用本機 LLM（Ollama），並以 Langfuse 做 tracing。</p>
 
-                    <p class="pt-1"><strong class="text-orange-300">系統架構</strong></p>
-                    <p>使用者上傳 PDF → <strong>Search Agent</strong>（解析、清理、章節切分、ChromaDB 向量索引）→ <strong>Interpretation Agent</strong>（E/S/G 分類、LLM 摘要、KPI 萃取、強弱項識別、來源歸因）→ <strong>Solution Agent</strong>（短/中/長期策略、RAG 最佳實踐檢索、GRI 缺口分析）→ <strong>Coordinator Agent</strong>（LangGraph 流程協調、品質控管、自動重試）→ 輸出 Markdown + JSON 報告。</p>
+                    <p class="pt-1"><strong class="text-orange-300">流程架構</strong></p>
+                    <table class="w-full text-[11px] border-collapse">
+                        <thead><tr class="text-slate-500 border-b border-slate-800">
+                            <th class="text-left py-1 pr-2">節點</th><th class="text-left py-1">負責</th>
+                        </tr></thead>
+                        <tbody>
+                            <tr class="border-b border-slate-800/50"><td class="py-1 pr-2"><code>search</code></td><td class="py-1">PyMuPDF 解析 PDF、清理、切分，建立 ChromaDB 向量索引，每個 chunk 帶真實頁碼</td></tr>
+                            <tr class="border-b border-slate-800/50"><td class="py-1 pr-2"><code>interpret</code></td><td class="py-1">依 E／S／G 檢索相關片段，LLM 產出亮點、待改善事項、KPI；KPI 經確定性檢查才保留</td></tr>
+                            <tr class="border-b border-slate-800/50"><td class="py-1 pr-2"><code>solution</code></td><td class="py-1">每個面向各生成 5 項策略；檢索同產業最佳實踐；GRI 缺口分析</td></tr>
+                            <tr class="border-b border-slate-800/50"><td class="py-1 pr-2"><code>qc</code></td><td class="py-1">逐面向檢查是否有實際內容（佔位字串不算）；診斷不足回到 interpret、只有策略不足回到 solution，最多重試 2 次</td></tr>
+                            <tr><td class="py-1 pr-2"><code>report</code></td><td class="py-1">輸出 Markdown 與 JSON；未通過 QC 的報告會在開頭明確標示</td></tr>
+                        </tbody>
+                    </table>
 
-                    <p class="pt-1"><strong class="text-orange-300">引用來源追蹤（Citation Source Tracking）</strong></p>
-                    <p>每一項結論都附上可回頭驗證的來源：Markdown 內嵌 <code>(來源: 公司·年度·chunk_id·頁碼：摘錄)</code>，無法溯源者標記為「非文件依據」；JSON 則附完整 <code>sources[]</code> 陣列。採<strong>確定性歸因</strong>（embedding 相似度 top-k + KPI 規則），不要求 LLM 自我回報來源。三層隔離保證：引用只會指向本次執行公司、同年度、report 類型的片段，KB 來源不會與公司報告來源混用。</p>
+                    <p class="pt-1"><strong class="text-orange-300">品質把關：三層</strong></p>
+                    <ul class="space-y-1.5 list-disc list-inside">
+                        <li><strong>流程內的確定性 KPI 檢查：</strong>數值必須出現在被引用的原文、名稱關鍵字必須在數值附近、只收「已發生的實績」（排除目標與政策門檻）、模型自己算的數字標示為「推算」。</li>
+                        <li><strong>118 項離線測試：</strong>不需 PDF、Ollama、ChromaDB 或網路。其中 78 項是針對開發中發現的問題新增的回歸測試，多半用報告中實際出現過的錯誤當測資；對新增的每項邏輯都用「故意破壞程式、確認測試會失敗」驗證，過程中發現並加強了數項寫得太鬆的測試。</li>
+                        <li><strong>報告自動檢查腳本 <code>verify_report.py</code>：</strong>直接讀輸出 JSON 做 14 項檢查（內容完整、策略數量、KPI 數量、殘渣與亂碼、頁碼具體、KPI 數值與名稱鄰近、最佳實踐來源等）。</li>
+                    </ul>
 
-                    <p class="pt-1"><strong class="text-orange-300">開發方法：Spec-Driven Development</strong></p>
-                    <p>引用來源追蹤功能用 <a href="https://github.com/github/spec-kit" target="_blank" class="text-cyan-400 hover:underline">GitHub spec-kit</a> 的規格驅動開發流程建構：<code>/speckit.specify → /speckit.plan → /speckit.tasks → /speckit.implement → /speckit.converge</code>，完整設計文件保留在 <code>specs/001-citation-source-tracking/</code>。<code>/speckit.converge</code> 在實作完成後重新比對程式碼與規格，抓到一個測試套件（全部 mock）沒覆蓋到的真實邊界案例——ChromaDB 增量更新路徑會遺失 <code>chunk_id</code>，導致該路徑產生的引用缺少溯源資訊，此落差被自動記錄為新任務並修復。</p>
+                    <p class="pt-1"><strong class="text-orange-300">開發過程中發現並修正的問題（節錄 12 項中的 6 項）</strong></p>
+                    <table class="w-full text-[11px] border-collapse">
+                        <thead><tr class="text-slate-500 border-b border-slate-800">
+                            <th class="text-left py-1 pr-2">現象</th><th class="text-left py-1 pr-2">根因</th><th class="text-left py-1">修正與驗證</th>
+                        </tr></thead>
+                        <tbody>
+                            <tr class="border-b border-slate-800/50 align-top"><td class="py-1 pr-2">小模型偶爾回傳空字串，整體耗時 6–11 分鐘</td><td class="py-1 pr-2">思考模型的思考過程佔掉大部分 token；同一 prompt 實測：開啟思考約 3270 token／100 秒，關閉約 226 token／5 秒</td><td class="py-1">對 Ollama 模型關閉思考，整個流程降到約 1.5–2.5 分鐘（實測 89–158 秒）</td></tr>
+                            <tr class="border-b border-slate-800/50 align-top"><td class="py-1 pr-2">報告把「投資金額揭露不足」列為缺點，原文其實有數字</td><td class="py-1 pr-2">pdfplumber 在多欄排版把數字拆到相鄰行（「新臺幣0.6億」變「新臺幣 億」）</td><td class="py-1">改用 PyMuPDF；「數字被拆離」樣式在整份報告中由 11 處降為 0，擷取時間約 16 秒降到約 0.5 秒</td></tr>
+                            <tr class="border-b border-slate-800/50 align-top"><td class="py-1 pr-2">所有 chunk 的頁碼都是 p1-106</td><td class="py-1 pr-2">切分時把整份文件的頁碼範圍套給每個 chunk</td><td class="py-1">每個 chunk 記錄真實頁碼；317 個可核對的 chunk 全部落在正確頁面</td></tr>
+                            <tr class="border-b border-slate-800/50 align-top"><td class="py-1 pr-2">KPI 引用到主題相近、但沒有該數字的頁面（526 人次在 p63，卻引到 p102）</td><td class="py-1 pr-2">引用歸因只用語意相似度</td><td class="py-1">KPI 先找「文字真的含有該數值」的片段；引用 chunk 含該數值的比例：舊版 10／21，新版 17／17（另 2 項標示為推算）</td></tr>
+                            <tr class="border-b border-slate-800/50 align-top"><td class="py-1 pr-2">KPI「董事長室配置資源＝100%」：數字存在於引用片段，意思卻是錯的</td><td class="py-1 pr-2">100% 其實是旁邊「完訓率」的數字；只比對數字字串抓不到錯配，連當時的自動檢查也放行，是逐項對 PDF 人工核對才發現</td><td class="py-1">新增「名稱關鍵字必須出現在數值附近」的檢查，流程與檢查腳本共用同一份邏輯</td></tr>
+                            <tr class="align-top"><td class="py-1 pr-2">2035 年減碳目標（63%）被當成實績放進 KPI</td><td class="py-1 pr-2">同一個數字在報告裡可能是承諾，也可能是結果</td><td class="py-1">以前後文關鍵字區分目標與實績；第一版曾把「2024 年立案之客訴案件共56 件」誤判為目標，修正後加入回歸測試</td></tr>
+                        </tbody>
+                    </table>
+                    <p class="text-slate-400">備註（README 自己的說明）：「17／17」有一部分是設計出來的結果——找得到就一定引用含該數值的片段——它只保證「引用的段落含有這個數字」，不保證語意正確，語意層面由後兩項檢查補強；兩份報告的 KPI 清單也不同，是兩次不同的執行，不是同一批項目的前後對照。</p>
 
-                    <p class="pt-1"><strong class="text-orange-300">真實世界驗證與踩坑</strong></p>
-                    <p>以真實的中信證券 2024 年永續報告 PDF、本機 Ollama 模型跑過完整端到端流程（範例輸出保留在 <code>examples/</code>，不需自行架設環境即可查看）。過程中發現並修復三個 Windows cp950 編碼閃退問題，以及一個「Social 面向系統性抓不到內容」的排序 bug——原本用文件順序截取段落，導致該面向的候選片段常態性排在截取門檻之外；改用 citation.py 既有的 embedding 相似度評分，依相關性而非文件順序選取每個面向的段落後解決。</p>
+                    <p class="pt-1"><strong class="text-orange-300">可觀測性與 LLM 檢查員實驗</strong></p>
+                    <p>每次執行是一條 <code>esg_pipeline</code> Langfuse trace：各節點、巢狀的 LLM 呼叫、QC 結果與重試次數，以及每個面向的 KPI 處理結果（保留數與被捨棄項目及原因）。另試作了一個由第二個本機模型擔任的 KPI「檢查員」（必須逐字引用原文，程式再驗證引文真的在證據裡）：在 39 筆測資（19 正例、1 個已知錯誤、19 個合成反例）上與確定性檢查結果幾乎一致，只在確定性檢查「無法判斷」的 1 筆展現補位價值，而每筆約 5 秒且需在兩個模型間切換顯存，因此<strong>預設關閉</strong>。測資中僅 1 個真實錯誤案例、合成反例也偏簡單，不能據此推論它對更難錯配的表現。</p>
 
-                    <p class="pt-1"><strong class="text-orange-300">測試與已知限制</strong></p>
-                    <p>40 項測試（unit + integration）完全離線執行，用假 embedding 與 mock LLM 驗證邏輯，不需要下載模型或呼叫 API。README 也誠實列出目前的已知限制：候選片段超過 40 個時只送前 40 個給 LLM（大型報告理論上仍可能漏收）、正則式 KPI 擷取偶爾誤抓版面元素、策略引用去重目前無數量上限、小型本機模型（4B 等級）偶爾不嚴格遵循輸出格式。</p>
+                    <p class="pt-1"><strong class="text-orange-300">已知限制（README 原文列出）</strong></p>
+                    <ul class="space-y-1.5 list-disc list-inside">
+                        <li><strong>引用的語意評測尚未重做。</strong>早期的 faithfulness 評測有已知缺陷（只看引用前 100 字、與檢索共用同一個 embedding 有循環、LLM 評審只收到截斷的內容、完全沒評 KPI 與策略），因此 README 刻意不再引用舊分數；亮點、待改善與策略的語意層面仍待補評測。</li>
+                        <li>「目標 vs 實績」以關鍵字判斷，只用兩份真實報告驗證過，寧可漏判也不誤判。</li>
+                        <li>尚未實作 human-in-the-loop（計畫用 LangGraph interrupt 搭配 checkpointer）。</li>
+                        <li>chunk 偏碎（380 個 chunk 中位數長度約 120 字，約 100 個少於 30 字）；小模型偶有文字雜訊；LLM 只收約 3000 字元的相關片段，部分「未見某項揭露」的缺點可能只是片段沒涵蓋。</li>
+                    </ul>
 
                     <div class="relative bg-slate-950 p-3 rounded font-mono text-[11px] text-orange-300 border border-slate-800 group">
                         <button onclick="copyCode(this)" class="absolute top-2 right-2 text-[10px] text-slate-500 hover:text-white bg-slate-800 px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition">複製</button>
-<pre># 確定性來源歸因（citation.py 節錄）
-def select_sources(text, sections, run_company, run_year, top_k=3, threshold=0.35):
-    # 只接受本次執行公司、同年度、report 類型的片段（KB 不混入公司結論）
-    candidates = [s for s in sections if _in_scope(s, run_company, run_year)
-                  and getattr(s, "doc_type", "report") == "report"]
-    if not candidates:
-        return [make_unattributed(run_company, run_year)]
-    scored = score_against_sections(text, candidates)   # embedding 相似度排序
-    picks = [s for s, sc in scored if sc >= threshold][:top_k]
-    return [make_citation(s, excerpt=truncate(s.text)) for s in picks] or \\
-           [make_unattributed(run_company, run_year)]
+<pre># KPI 引用：先找「文字真的含有該數值」的片段（citation.py 簡化節錄）
+def select_sources_for_value(text, value, sections, run_company, ...):
+    tok = primary_token(value)
+    containing = [s for s in report_candidates
+                  if contains_number(s.text, tok)]
+    # 個位數幾乎每個片段都有 → 額外要求名稱就在數字旁邊（40 字內）
+    if tok.isdigit() and len(tok) == 1 and containing:
+        adjacent = [s for s in containing
+                    if value_near_name_in_texts(kpi_name, value, [s.text], win=40)]
+        containing = adjacent or containing
+    if containing:
+        return top_k_by_similarity(text, containing)
+    return select_sources(...)   # 找不到才退回語意相似度（數值可能是推算）
+</pre>
+                    </div>
+                `
+            },
+            'phishing': {
+                title: '釣魚與社交工程偵測：微調 RoBERTa + Stacking + LLM 解釋',
+                github: 'https://github.com/1eadbloom/Phishing-Detection',
+                body: `
+                    <p><strong>⚠️ 這是「LLM Applications in Cybersecurity」課程的小組期末專題</strong>（我個人即為一組），此處整理專案整體技術內容與成果。</p>
+                    <p><strong>專案目標：</strong>偵測釣魚與社交工程訊息（郵件內文／簡訊／URL 字串）。系統由四個模組組成：微調 RoBERTa 文字分類器、XGBoost URL 特徵分類器、Stacking 元學習器，以及經 Ollama 呼叫的 Qwen3 可解釋性模組。</p>
+
+                    <p class="pt-1"><strong class="text-sky-300">架構</strong></p>
+                    <p>輸入訊息 → 文字預處理（小寫、空白正規化、截斷 256 tokens）→ <strong>RoBERTa</strong> 給出 P(phishing | text)、<strong>XGBoost</strong> 給出 P(phishing | url) → <strong>Logistic Regression 元學習器</strong>融合兩者機率 → 若融合機率落在 [0.35, 0.65] 的邊界區間，交給 <strong>Qwen3</strong> 產生判斷理由；區間外的高信心樣本直接輸出判定。</p>
+
+                    <p class="pt-1"><strong class="text-sky-300">成果與基準比較</strong>（資料：70,514 筆、釣魚佔 32.2%，70/15/15 分層切分）</p>
+                    <table class="w-full text-[11px] border-collapse">
+                        <thead><tr class="text-slate-500 border-b border-slate-800">
+                            <th class="text-left py-1 pr-2">模型</th><th class="text-left py-1 pr-2">Precision</th><th class="text-left py-1 pr-2">Recall</th><th class="text-left py-1 pr-2">F1</th><th class="text-left py-1">AUC</th>
+                        </tr></thead>
+                        <tbody>
+                            <tr class="border-b border-slate-800/50"><td class="py-1 pr-2">TF-IDF + Naive Bayes</td><td class="py-1 pr-2">0.827</td><td class="py-1 pr-2">0.787</td><td class="py-1 pr-2">0.806</td><td class="py-1">0.944</td></tr>
+                            <tr class="border-b border-slate-800/50"><td class="py-1 pr-2">TF-IDF + Logistic Regression</td><td class="py-1 pr-2">0.869</td><td class="py-1 pr-2">0.840</td><td class="py-1 pr-2">0.854</td><td class="py-1">0.969</td></tr>
+                            <tr class="border-b border-slate-800/50"><td class="py-1 pr-2">XGBoost（僅 URL，5-fold CV）</td><td class="py-1 pr-2">-</td><td class="py-1 pr-2">-</td><td class="py-1 pr-2">-</td><td class="py-1">0.907</td></tr>
+                            <tr class="border-b border-slate-800/50"><td class="py-1 pr-2">RoBERTa（單獨）</td><td class="py-1 pr-2">0.965</td><td class="py-1 pr-2">0.946</td><td class="py-1 pr-2">0.955</td><td class="py-1">0.9948</td></tr>
+                            <tr><td class="py-1 pr-2"><strong class="text-sky-300">Stacking（最終）</strong></td><td class="py-1 pr-2 text-sky-300">0.965</td><td class="py-1 pr-2 text-sky-300">0.945</td><td class="py-1 pr-2 text-sky-300">0.955</td><td class="py-1 text-sky-300">0.9948</td></tr>
+                        </tbody>
+                    </table>
+                    <p>最終模型 F1 0.955，比最強的傳統基準（TF-IDF + LR，F1 0.854）高出約 <strong class="text-sky-300">10.1 個百分點</strong>；誤報率（FPR）1.62%、整體準確率 97.00%，提案時訂下的五項目標全數達成。混淆矩陣為 TP=3217、FP=116、TN=7054、FN=190。</p>
+
+                    <p class="pt-1"><strong class="text-sky-300">關鍵設計與取捨</strong></p>
+                    <ul class="space-y-1.5 list-disc list-inside">
+                        <li><strong>為何用 Stacking：</strong>第 15 週版本用簡單平均融合，釣魚類 Precision 為 0.930，是提案中唯一未達標的項目；改用以 [P_roberta, P_xgboost] 訓練的 Logistic Regression 元學習器後提升到 0.965（+3.5 pp），並做閾值校準（t=0.35 時 P=0.9625、R=0.9498、F1=0.9561）；所有 ≥0.35 的閾值都滿足 Precision ≥95%，工作點相當穩定。</li>
+                        <li><strong>RoBERTa 微調：</strong>roberta-base（125M 參數）、最大長度 256、等效 batch 64（16 × 梯度累積 4）、lr 2e-5 搭配 6% warmup、bf16；驗證 F1 逐 epoch 0.9607 → 0.9678 → 0.9718，RTX 5080 Laptop 上約 20 分鐘。</li>
+                        <li><strong>URL 特徵：</strong>36 個手工特徵（長度、子網域深度、特殊字元數、TLD 類型、IP 偵測、路徑熵等），<code>scale_pos_weight = 3.59</code> 校正類別不平衡；5-fold CV 準確率 87.78% ± 0.42%、AUC 90.65% ± 0.47%——單看 URL 的訊號明顯比文字弱，這也是需要融合的原因。</li>
+                        <li><strong>LLM 只處理「不確定」的案例：</strong>50 筆邊界樣本交給 Qwen3 解釋，與分類器判定的一致率為 84%（42/50）。注意這是「LLM 與分類器是否一致」，不是對真實標籤的準確率。</li>
+                    </ul>
+
+                    <p class="pt-1"><strong class="text-sky-300">工程踩坑：Windows + Blackwell GPU</strong></p>
+                    <p>RTX 5080／5090（SM 12.0）需要 PyTorch ≥ 2.7.0 搭配 CUDA 12.8；標準 <code>pip install torch</code> 會裝到 cu121 版本而出現 <code>no kernel image</code> 錯誤，Windows 上另有 <code>WinError 1114</code> DLL 載入失敗。專案以明確的 <code>torch==2.7.0+cu128</code> 安裝說明、<code>torch_preload.py</code> 包裝腳本與 README 疑難排解表處理，並以 bf16 訓練。</p>
+
+                    <p class="pt-1"><strong class="text-sky-300">限制（如實列出）</strong></p>
+                    <ul class="space-y-1.5 list-disc list-inside">
+                        <li>資料來自合併的公開資料集（HuggingFace phishing-dataset、UCI SMS Spam、SpamAssassin）；PhishTank 因 bz2 下載損毀而略過，測試集分數反映的是這批公開資料的分佈，對真實世界新型攻擊的穩健性需另行驗證。</li>
+                        <li>repo 的 <code>reports/</code> 內附提案、進度與期末報告（含 FN/FP 成本與對抗穩健性等資安面向的評估），詳細分析請見報告。</li>
+                    </ul>
+
+                    <div class="relative bg-slate-950 p-3 rounded font-mono text-[11px] text-sky-300 border border-slate-800 group">
+                        <button onclick="copyCode(this)" class="absolute top-2 right-2 text-[10px] text-slate-500 hover:text-white bg-slate-800 px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition">複製</button>
+<pre># 推論流程示意（依 README 架構整理，非原始碼）
+p_text = roberta.predict_proba(message)        # P(phishing | text)
+p_url  = xgboost.predict_proba(url_features)   # P(phishing | url)
+p      = meta_lr.predict_proba([[p_text, p_url]])[0][1]
+
+if 0.35 <= p <= 0.65:        # 邊界區間才呼叫 LLM
+    verdict = qwen3_explain(message, p)   # Ollama /api/generate
+else:
+    verdict = "PHISHING" if p > 0.65 else "LEGIT"
 </pre>
                     </div>
                 `
@@ -867,8 +986,9 @@ sharpe_ratio = (df['strategy_returns'].mean()
             const proj = document.getElementById('sim-project').value;
             const output = document.getElementById('sim-output');
             const logs = {
+                phishing: "[INFO] input: email body + embedded URL\n[ROBERTA] P(phishing | text) = 0.52\n[XGBOOST] P(phishing | url) = 0.61\n[STACKING] meta-LR fused probability = 0.55 -> inside borderline [0.35, 0.65]\n[QWEN3] explanation requested via Ollama /api/generate\n[EVAL] test set: Precision 0.9649 | Recall 0.9445 | F1 0.9546 | AUC 0.9948",
                 'mcp-toolkit': "[INFO] MCP tool call: probe_function(code='def double(x): return x * 2', entry_function='double')\n[PROBE] Testing 9 boundary inputs: '', -1, 0, 1e308, None, ...\n[PASS] 8/9 inputs handled without error\n[CRASH] input=None -> TypeError: unsupported operand type(s) for *: 'NoneType' and 'int'\n[RESULT] bad_line: 2, outcome: 'crash'",
-                'esg-agent': "[INFO] coordinator_agent.py --file 中信證券_2024.pdf --company 中信證券\n[SEARCH] Chunked & indexed into ChromaDB (scope: 中信證券 · 2024 · report)\n[INTERPRET] E/S/G sections classified, KPIs extracted\n[CITATION] select_sources(): embedding similarity >= 0.35, top_k=3\n[RESULT] 12 highlights, 9 weaknesses cited; 1 fallback to unattributed\n[SUCCESS] Report written to outputs/中信證券_ESG分析報告.md",
+                'esg-agent': "[INFO] coordinator_agent.py --file 中信證券_2024.pdf --company 中信證券\n[SEARCH] PyMuPDF parsed, chunks indexed into ChromaDB (real page numbers)\n[INTERPRET] E/S/G sections analysed, KPI candidates extracted\n[KPI] value must appear in cited text; name must be near value; targets filtered\n[QC] per-pillar content check -> passed (retry 0/2)\n[VERIFY] verify_report.py: 14 automated checks\n[SUCCESS] Report written to outputs/ (.md + .json)",
                 'ai-systems': "[INFO] hermes chat --toolsets skills -q '/text2sql-1eadbloom {...}'\n[INFO] Generated SQL compared against gold_sql via bag-equality\n[RESULT] dev_set/basic: 18/20 queries passed\n[INFO] Running Pairwise round: code-author vs reference-bug-hunter-aggressive\n[RESULT] Final aggregated score: 91.61 / 100",
                 'deep-learning': "[INFO] Initializing Conditional DDPM Model...\n[INFO] Noise Timesteps T=1000, Beta schedule: linear\n[STEP 250] Cross-Attention denoising loss: 0.0421\n[STEP 750] Cross-Attention denoising loss: 0.0093\n[EVAL] ResNet-18 evaluator accuracy: 0.9167 (test.json)\n[INFO] Switching module: ResNet34-UNet segmentation...\n[EVAL] Validation Dice Score: 0.9126\n[SUCCESS] Image synthesized via DDIM (100 steps) in 1.24s.",
                 nlp: "[INFO] Loading AG News dataset...\n[INFO] Model: Bidirectional 2-layer LSTM (PyTorch)\n[BATCH 1] input: \"Fed raises interest rates amid inflation concerns\"\n[BATCH 1] predicted_class: Business (0.91 confidence)\n[EVAL] Test accuracy: 90.4%\n[SUCCESS] Inference completed in 0.08s/sample.",
