@@ -185,6 +185,7 @@
                     <option value="langfuse">Langfuse (Tracing)</option>
                     <option value="chromadb">ChromaDB</option>
                     <option value="bm25">BM25 / Hybrid Retrieval</option>
+                    <option value="langchain">LangChain</option>
                     <option value="ollama">Ollama（本機 LLM）</option>
                     <option value="whisper">OpenAI Whisper</option>
                     <option value="pandas">Pandas / NumPy</option>
@@ -257,7 +258,7 @@
             </div>
 
             <!-- Card 1: AI System Practices (Agent Skills / RAG / Memory / CLI SDD) -->
-            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg cursor-pointer" style="--card-glow: rgba(249,115,22,0.35)" data-category="ai-systems" data-tech="rag chromadb bm25" data-keywords="hermes agent skill text2sql code-author bug-hunter rag langgraph mcp fastapi bm25 memory pi coding agent sdd argparse cli" onclick="openModal('ai-systems')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal('ai-systems')">
+            <div class="project-card reveal bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg cursor-pointer" style="--card-glow: rgba(249,115,22,0.35)" data-category="ai-systems" data-tech="rag chromadb bm25 langchain" data-keywords="hermes agent skill text2sql code-author bug-hunter rag langgraph langchain faiss ablation mrr mcp fastapi bm25 hybrid retrieval rrf memory pi coding agent sdd argparse cli" onclick="openModal('ai-systems')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal('ai-systems')">
                 <div class="space-y-3">
                     <div class="flex items-center justify-between text-xs">
                         <span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 font-mono">AI Systems / Agent</span>
@@ -265,7 +266,7 @@
                     </div>
                     <h3 class="text-lg font-bold text-white">AI 系統實作集（Agent / RAG / Memory）</h3>
                     <p class="text-slate-400 text-xs leading-relaxed">
-                        4 個 AI 系統工程專案：期末專案 Hermes Agent 四項可驗證 Skill（91.61/100）、個人 RAG 知識庫、BM25 混合檢索記憶層，以及規格驅動開發（SDD）CLI 工具的兩版本演化。
+                        4 個 AI 系統工程專案：期末專案 Hermes Agent 四項可驗證 Skill（91.61/100）、個人 RAG 知識庫、BM25 混合檢索記憶層（含 LangChain 對照與消融實驗），以及規格驅動開發（SDD）CLI 工具的兩版本演化。
                     </p>
                     <div class="flex flex-wrap gap-1.5 pt-2">
                         <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Hermes Agent</span>
@@ -648,7 +649,7 @@ def select_sources_for_value(text, value, sections, run_company, ...):
                 title: '釣魚與社交工程偵測：微調 RoBERTa + Stacking + LLM 解釋',
                 github: 'https://github.com/1eadbloom/Phishing-Detection',
                 body: `
-                    <p><strong>⚠️ 這是「LLM Applications in Cybersecurity」課程的小組期末專題</strong>（我個人即為一組），此處整理專案整體技術內容與成果。</p>
+                    <p><strong>⚠️ 這是「LLM Applications in Cybersecurity」課程的小組期末專題</strong>（我擔任組長），此處整理專案整體技術內容與成果。</p>
                     <p><strong>專案目標：</strong>偵測釣魚與社交工程訊息（郵件內文／簡訊／URL 字串）。系統由四個模組組成：微調 RoBERTa 文字分類器、XGBoost URL 特徵分類器、Stacking 元學習器，以及經 Ollama 呼叫的 Qwen3 可解釋性模組。</p>
 
                     <p class="pt-1"><strong class="text-sky-300">架構</strong></p>
@@ -713,8 +714,26 @@ else:
                     <p class="pt-1"><strong class="text-orange-300">② 個人 RAG 知識庫（Build Your Personal RAG）</strong></p>
                     <p>知識領域聚焦 AI Agent 框架（LangGraph、MCP、FastAPI），21 份原創技術筆記經清理、段落優先 Chunking（800 字 + 150 字重疊）、<code>sentence-transformers</code> 本地 embedding 後存入 ChromaDB。技術選型刻意避開雲端依賴：embedding 模型本地跑（免 API Key）、LLM 層則用 LiteLLM 統一介面方便切換 provider。另外實作 <code>skill_builder.py</code>，自動對知識庫提出 7 個全域性問題並彙整生成規格化的 <code>skill.md</code> 文件。</p>
 
-                    <p class="pt-1"><strong class="text-orange-300">③ Pi Memory — BM25 混合檢索記憶層</strong></p>
-                    <p>為 Pi coding agent 打造持久記憶層，四階段管線：Capture → SHA-256 去重儲存 → BM25 檢索 → Token 預算感知的 Context 注入。額外實作 BM25 + Sentence-Embedding 的 RRF（Reciprocal Rank Fusion）混合檢索。Baseline corpus 上 BM25 達 Recall@5 0.810、MRR 0.810，與官方參考基準完全吻合；13 項單元測試全數通過。</p>
+                    <p class="pt-1"><strong class="text-orange-300">③ Pi Memory — BM25 混合檢索記憶層（含 LangChain 對照與消融實驗）</strong></p>
+                    <p>為 Pi coding agent 打造持久記憶層，四階段管線：Capture → SHA-256 去重儲存 → BM25 檢索 → Token 預算感知的 Context 注入。另實作 BM25 + Sentence-Embedding 的 RRF（Reciprocal Rank Fusion）混合檢索。基準語料（30 筆／21 題）上 BM25 達 Recall@5 0.810、MRR 0.810、nDCG@5 0.802，與參考基準吻合；13 項單元測試全數通過。</p>
+                    <p><strong>課程作業之外的延伸實驗：</strong>以 LangChain（<code>BM25Retriever</code> + FAISS + <code>EnsembleRetriever</code>）重新實作一版（<code>memory/lc_hybrid.py</code>）做對照，原本的 <code>bm25.py</code>／<code>hybrid.py</code> 不動。相同語料、查詢與 embedding 模型（all-MiniLM-L6-v2），k=5、RRF c=60、alpha=0.5；另備 100 筆／40 題的大語料。大語料結果：</p>
+                    <table class="w-full text-[11px] border-collapse">
+                        <thead><tr class="text-slate-500 border-b border-slate-800">
+                            <th class="text-left py-1 pr-2">方法</th><th class="text-left py-1 pr-2">Recall@5</th><th class="text-left py-1 pr-2">MRR</th><th class="text-left py-1">nDCG@5</th>
+                        </tr></thead>
+                        <tbody>
+                            <tr class="border-b border-slate-800/50"><td class="py-1 pr-2">自製 BM25</td><td class="py-1 pr-2">0.838</td><td class="py-1 pr-2">0.826</td><td class="py-1">0.795</td></tr>
+                            <tr class="border-b border-slate-800/50"><td class="py-1 pr-2">純 embedding</td><td class="py-1 pr-2">0.912</td><td class="py-1 pr-2">0.844</td><td class="py-1">0.843</td></tr>
+                            <tr class="border-b border-slate-800/50"><td class="py-1 pr-2"><strong class="text-orange-300">自製 hybrid</strong></td><td class="py-1 pr-2">0.875</td><td class="py-1 pr-2 text-orange-300">0.910</td><td class="py-1">0.854</td></tr>
+                            <tr><td class="py-1 pr-2">LangChain ensemble</td><td class="py-1 pr-2">0.850</td><td class="py-1 pr-2">0.892</td><td class="py-1">0.834</td></tr>
+                        </tbody>
+                    </table>
+                    <ul class="space-y-1.5 list-disc list-inside">
+                        <li><strong>Hybrid 在大語料明顯改善排序</strong>（MRR 0.826 → 0.910），但在 30 筆小語料上 MRR 反而略降（0.810 → 0.786）——差異取決於 RRF 平手時的排序（改用 <code>rank_bm25</code> 搭同一套融合則為 0.810），小語料上很脆弱。純 embedding 在兩個語料的 Recall@5 都最高，所以 alpha=0.5 的 hybrid 並未全面勝出（alpha 未調）。</li>
+                        <li><strong>順手抓到一個隱性 bug：</strong>自製 hybrid 原本融合時遍歷 <code>set</code>，RRF 分數平手時排序會隨 <code>PYTHONHASHSEED</code> 變動（5 個 seed 下 MRR：小語料 0.786–0.810、大語料 0.898–0.910）。改為依語料順序破平手後結果可重現。</li>
+                        <li><strong>延遲的瓶頸是實作，不是缺少框架：</strong>原本每次查詢都重算全部文件的 embedding（大語料約 103 ms／查詢）；快取 embedding 並用 numpy 算 cosine 後約 5 ms，與 LangChain 版（約 5.5 ms）相當。（絕對時間每次執行會變動，只在同一次執行內比較。）</li>
+                        <li><strong>結論：</strong>LangChain 在準確度與速度上沒有一致優勢（小語料較好、大語料較差，21／40 題的差異在雜訊範圍內）；好處是少維護融合邏輯、易換向量庫，代價是更多依賴與套件搬家（<code>EnsembleRetriever</code> 在 v1.x 移到 <code>langchain-classic</code>）。限制：基準偏小、單一 embedding 模型、alpha 未調、單機。</li>
+                    </ul>
 
                     <p class="pt-1"><strong class="text-orange-300">④ CryptoTracker — 規格驅動開發（SDD）CLI 工具</strong></p>
                     <p>CoinGecko API 串接的加密貨幣查詢 CLI，v1→v2 刻意驗證「三層架構（CLI / 業務邏輯 / 資料存取）+ 依賴注入」的可擴充性：v2.0 新增設定檔、價格警示、多幣比較、RSI 趨勢分析共四項功能，全程<strong>零修改</strong> <code>crypto_api.py</code>，證明架構設計的前瞻性。技術選型上刻意用 <code>argparse</code> 而非 <code>click</code>，換取零依賴啟動與 Lazy Import 相容性。</p>
