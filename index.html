@@ -122,7 +122,7 @@
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-400">專案與技術作品集</span>
                 </h1>
                 <p class="text-slate-400 text-base sm:text-lg max-w-2xl leading-relaxed">
-                    國立政治大學畢業生，專注於<strong class="text-slate-200 font-medium">生成式 AI（DDPM）</strong>、<strong class="text-slate-200 font-medium">自然語言處理</strong>、<strong class="text-slate-200 font-medium">深度強化學習（DQN）</strong>、<strong class="text-slate-200 font-medium">資料分析</strong>與<strong class="text-slate-200 font-medium">量化金融科技</strong>。
+                    國立政治大學畢業生，專注於<strong class="text-slate-200 font-medium">RAG</strong>、<strong class="text-slate-200 font-medium">多代理人（Multi-Agent）系統</strong>與<strong class="text-slate-200 font-medium">MCP 工具開發</strong>；另有自然語言處理、深度學習（DDPM、DQN、語意分割課程實作）、資料分析與量化金融科技的專案經驗。
                 </p>
             </div>
 
@@ -141,7 +141,7 @@
         <!-- Stats strip -->
         <section class="grid grid-cols-2 sm:grid-cols-4 gap-3 reveal">
             <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-center">
-                <div class="text-2xl font-extrabold text-cyan-400 font-mono">11</div>
+                <div id="stat-projects" class="text-2xl font-extrabold text-cyan-400 font-mono">11</div>
                 <div class="text-[11px] text-slate-500 mt-1">已整理專案</div>
             </div>
             <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-center">
@@ -149,7 +149,7 @@
                 <div class="text-[11px] text-slate-500 mt-1">Notebook / Script</div>
             </div>
             <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-center">
-                <div class="text-2xl font-extrabold text-amber-400 font-mono">5</div>
+                <div id="stat-areas" class="text-2xl font-extrabold text-amber-400 font-mono">9</div>
                 <div class="text-[11px] text-slate-500 mt-1">技術領域</div>
             </div>
             <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-center">
@@ -161,7 +161,7 @@
         <!-- Filter & Search Bar -->
         <section id="projects" class="space-y-4 scroll-mt-20">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-center flex-wrap gap-3 bg-slate-900/60 p-4 border border-slate-800 rounded-xl">
-                <button onclick="showAllProjects()" id="all-projects-btn" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-600 text-white transition">全部專案 (11)</button>
+                <button onclick="showAllProjects()" id="all-projects-btn" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-600 text-white transition">全部專案 (<span id="all-count">11</span>)</button>
 
                 <select id="topic-select" onchange="filterByTopic(this.value)" class="bg-slate-800 border border-slate-700 text-slate-300 text-xs rounded-lg px-3 py-1.5 text-center focus:outline-none focus:border-cyan-500 hover:bg-slate-700 transition" style="text-align-last: center;">
                     <option value="" disabled selected hidden>依主題區分</option>
@@ -893,9 +893,9 @@ sharpe_ratio = (df['strategy_returns'].mean()
             { p: '$ whoami', c: 'text-slate-300' },
             { p: '徐祥智 · NCCU · AI/ML 工程實作與其他作品集', c: 'text-cyan-300' },
             { p: '$ ls ./skills', c: 'text-slate-300' },
-            { p: 'PyTorch  Diffusion  RL  NLP  RAG  Quant-Finance', c: 'text-cyan-300' },
+            { p: 'PyTorch  RAG  Multi-Agent  MCP  NLP  Quant-Finance', c: 'text-cyan-300' },
             { p: '$ cat ./status', c: 'text-slate-300' },
-            { p: '6 projects indexed · 20+ notebooks/scripts · building...', c: 'text-emerald-300' },
+            { p: document.querySelectorAll('.project-card').length + ' projects indexed · 20+ notebooks/scripts · building...', c: 'text-emerald-300' },
         ];
 
         function typeBootTerminal() {
@@ -1037,7 +1037,21 @@ sharpe_ratio = (df['strategy_returns'].mean()
             items.forEach(el => observer.observe(el));
         }
 
+        // ---------- Auto-computed counts (stats boxes + "全部專案" button) ----------
+        function updateCounts() {
+            const cards = document.querySelectorAll('.project-card');
+            const areas = new Set(Array.from(cards).map(card => card.dataset.category));
+            const setText = (id, value) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = value;
+            };
+            setText('stat-projects', cards.length);
+            setText('stat-areas', areas.size);
+            setText('all-count', cards.length);
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
+            updateCounts();
             typeBootTerminal();
             initScrollReveal();
         });
